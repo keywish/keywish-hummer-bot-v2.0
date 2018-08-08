@@ -20,8 +20,8 @@ uint16_t Ultrasonic::GetUltrasonicFrontDistance()
     delayMicroseconds(10);
     digitalWrite(TrigPin, LOW);
     FrontDistance = pulseIn(EchoPin, HIGH) / 58.00 ;
-	Serial.print("FrontDistance");
-	Serial.println(FrontDistance);
+	//Serial.print("FrontDistance");
+	//Serial.println(FrontDistance);
     return FrontDistance;
 }
 
