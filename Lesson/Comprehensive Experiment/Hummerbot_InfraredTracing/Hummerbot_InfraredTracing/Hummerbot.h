@@ -13,8 +13,8 @@
 #define HB_IR_PIN 12
 #define HB_INPUT2_PIN 10
 #define HB_INPUT1_PIN 6
-#define HB_INPUT4_PIN 9
-#define HB_INPUT3_PIN 5
+#define HB_INPUT4_PIN 5
+#define HB_INPUT3_PIN 9
 
 #define HB_TRIGPIN 2
 #define HB_ECHOPIN 3
@@ -34,13 +34,13 @@
 
 class Hummerbot : public SmartCar {
 private :
-    uint8_t InPut2PIN, InPut1PIN, InPut3PIN, InPut4PIN;
+    uint8_t InPut2PIN, InPut1PIN, PwmaPin, InPut3PIN, InPut4PIN;
     uint8_t IrPin;      // Infrared remoter pin
     uint8_t InfraredTracingPin1, InfraredTracingPin2, InfraredTracingPin3, InfraredTracingPin4, InfraredTracingPin5;    // for Infrared tracing pin
     uint8_t Ps2xClkPin, Ps2xCmdPin, Ps2xAttPin, Ps2xDatPin;    // for Ps2 remoter
     uint8_t InfraredAvoidancePin1,InfraredAvoidancePin2;     //For infrared obstacle avoidance
     uint8_t EchoPin,TrigPin,ServoPin;
-
+    ST_PROTOCOL SendData;
     ProtocolParser *mProtocolPackage;
 
 public :
@@ -66,6 +66,9 @@ public :
     int SetPs2xPin(uint8_t clk = HB_PS2X_CLK, uint8_t cmd = HB_PS2X_CMD, uint8_t att = HB_PS2X_ATT, uint8_t dat = HB_PS2X_DAT);
     int ResetPs2xPin(void);
     void SendBatteryPackage(byte *battery_value);
+    void SendTracingSignal();
+    void SendInfraredData();
+    void SendUltrasonicData();
     void init(void);
 };
 

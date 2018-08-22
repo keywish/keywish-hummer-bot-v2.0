@@ -5,6 +5,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include <Arduino.h>
 
+#define UL_LIMIT_MIN 12
+#define UL_LIMIT_MID 20
+#define UL_LIMIT_MAX 550
 
 class Ultrasonic
 {

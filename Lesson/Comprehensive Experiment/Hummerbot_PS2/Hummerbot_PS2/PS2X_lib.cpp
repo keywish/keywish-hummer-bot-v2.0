@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdint.h>
+#include "debug.h"
 //#include <avr/io.h>
 #if defined(__SAM3X8E__)
     #include <sam/pio.h> // For the Due
@@ -224,9 +225,12 @@ byte PS2X::config_gamepad(uint8_t clk, uint8_t cmd, uint8_t att, uint8_t dat, bo
   //If still anything but 41, 73 or 79, then it's not talking
   if(PS2data[1] != 0x41 && PS2data[1] != 0x73 && PS2data[1] != 0x79){
 #ifdef PS2X_DEBUG
-    Serial.println("Controller mode not matched or no controller found");
-    Serial.print("Expected 0x41, 0x73 or 0x79, but got ");
-    Serial.println(PS2data[1], HEX);
+    DEBUG_LOG(DEBUG_LEVEL_INFO, "Controller mode not matched or no controller found \n");
+    //Serial.println("Controller mode not matched or no controller found");
+    DEBUG_LOG(DEBUG_LEVEL_INFO, "Expected 0x41, 0x73 or 0x79, but got ");
+    //Serial.print("Expected 0x41, 0x73 or 0x79, but got ");
+    DEBUG_LOG(DEBUG_LEVEL_INFO, PS2data[1], HEX);
+    //Serial.println(PS2data[1], HEX);
 #endif
     return 1; //return error code 1
   }

@@ -1,27 +1,3 @@
-/***********************************************************************
- *       __                                                          _
- *      / /        _____  __    __  _          _   (_)   ________   | |
- *     / /____   / _____) \ \  / / | |   __   | |  | |  (  ______)  | |_____
- *    / / ___/  | |_____   \ \/ /  | |  /  \  | |  | |  | |______   |  ___  |
- *   / /\ \     | |_____|   \  /   | | / /\ \ | |  | |  (_______ )  | |   | |
- *  / /  \ \__  | |_____    / /    | |/ /  \ \| |  | |   ______| |  | |   | |
- * /_/    \___\  \______)  /_/      \__/    \__/   |_|  (________)  |_|   |_|
- *
- *
- * KeyWay Tech firmware
- *
- * Copyright (C) 2015-2020
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation, in version 3.
- * learn more you can see <http://www.gnu.org/licenses/>.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
- *
- */
 #include "Hummerbot.h"
 #include "ProtocolParser.h"
 #include "KeyMap.h"
@@ -29,8 +5,8 @@
 
 #define INPUT2_PIN 10 // PWMB
 #define INPUT1_PIN 6  // DIRB  ---  right
-#define INPUT4_PIN 9  // PWMA
-#define INPUT3_PIN 5  // DIRA  ---  left
+#define INPUT4_PIN 5  // PWMA
+#define INPUT3_PIN 9  // DIRA  ---  left
 #define IR_PIN 12
 #define SERVO_PIN 13
 #define ECHO_PIN 3
@@ -44,10 +20,6 @@
 #define INFRARED_TRACING_PIN3 A2
 #define INFRARED_AVOIDANCE_LEFT_PIN A3
 #define INFRARED_AVOIDANCE_RIGHT_PIN A4
-#define IA_THRESHOLD 40
-#define UL_LIMIT_MIN 50
-#define UL_LIMIT_MID 40
-#define UL_LIMIT_MAX 2000
 
 ProtocolParser *mProtocol = new ProtocolParser();
 Hummerbot hbot(mProtocol, INPUT2_PIN, INPUT1_PIN, INPUT3_PIN, INPUT4_PIN);
@@ -63,11 +35,10 @@ void setup()
     hbot.SetUltrasonicPin(HB_TRIGPIN, HB_ECHOPIN, HB_SERVOPIN);
     hbot.SetInfraredTracingPin(HB_INFRARED_TRACING_PIN1, HB_INFRARED_TRACING_PIN2, HB_INFRARED_TRACING_PIN3);
     hbot.SetPs2xPin(HB_PS2X_CLK, HB_PS2X_CMD, HB_PS2X_ATT, HB_PS2X_DAT);
-    hbot.SetSpeed(100);
+    hbot.SetSpeed(0);
     Ps2xType = hbot.mPs2x->readType();
-    hbot.mUltrasonic->SetServoBaseDegree(90);
+    hbot.mUltrasonic->SetServoBaseDegree(70);
     hbot.mUltrasonic->SetServoDegree(90);
-    Serial.println("Get last update from https://github.com/keywish/keywish-hummer-bot-v2.0");
 }
 //=========================== Ultrasonic_Infrared =====
 void HandleUltrasonicInfraredAvoidance()
@@ -77,110 +48,154 @@ void HandleUltrasonicInfraredAvoidance()
     RightValue = hbot.mInfraredAvoidance->GetInfraredAvoidanceRightValue();
     LeftValue = hbot.mInfraredAvoidance->GetInfraredAvoidanceLeftValue();
     UlFrontDistance =  hbot.mUltrasonic->GetUltrasonicFrontDistance();
-    if(((RightValue > IA_THRESHOLD) && (LeftValue > IA_THRESHOLD)) && ((UlFrontDistance > UL_LIMIT_MID) && (UlFrontDistance < UL_LIMIT_MAX)))
-    {
-        hbot.SetSpeed(100);
+    DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n",UlFrontDistance);
+
+   if ((RightValue >= IA_THRESHOLD) && (LeftValue <= IA_THRESHOLD)) {
+        hbot.SetSpeed(80);
+        hbot.Drive(10 );
+    } else if ((RightValue < IA_THRESHOLD) && (LeftValue > IA_THRESHOLD)) {
+        hbot.SetSpeed(80);
+        hbot.Drive(170);
+    } else {
+        hbot.SetSpeed(50);
         hbot.GoForward();
-      }
-    else if((RightValue > IA_THRESHOLD) && (LeftValue < IA_THRESHOLD))
-    {
-        hbot.SetSpeed(80);
-        hbot.TurnRight();
-        delay(200);
-      }
-    else if((RightValue < IA_THRESHOLD) && (LeftValue > IA_THRESHOLD))
-    {
-        hbot.SetSpeed(80);
-        hbot.TurnLeft();
-        delay(200);
-      }
-    else if((RightValue < IA_THRESHOLD) && (LeftValue < IA_THRESHOLD))
-    {
-        hbot.SetSpeed(80);
-        hbot.Drive(0);
-        delay(150);
-      }
-    else if(((RightValue > IA_THRESHOLD) && (LeftValue > IA_THRESHOLD)) && ((UlFrontDistance < UL_LIMIT_MID) || (UlFrontDistance > UL_LIMIT_MAX)))
-    {
+    }
+    DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance = %d \n\r", UlFrontDistance);
+    if (UlFrontDistance < UL_LIMIT_MID) {
         hbot.KeepStop();
-        UlRightDistance = hbot.mUltrasonic->GetUltrasonicRightDistance();
-        UlLeftDistance = hbot.mUltrasonic->GetUltrasonicLeftDistance();
-        if((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX) && (UlRightDistance > UlLeftDistance))
-        {
-            hbot.SetSpeed(80);
-            hbot.TurnRight();
-            delay(200);
-          }
-        else if((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX) && (UlLeftDistance > UlRightDistance))
-        {
-            hbot.SetSpeed(80);
-            hbot.TurnLeft();
-            delay(200);
-          }
-        else if((UlRightDistance < UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MIN) )
-        {
-            hbot.SetSpeed(80);
-            hbot.Drive(0);
+        if (UlFrontDistance <= UL_LIMIT_MIN || RightValue <= IA_THRESHOLD || LeftValue <= IA_THRESHOLD) {
+            hbot.SetSpeed(60);
+            hbot.GoBack();
             delay(300);
-          }
-      }
+            hbot.KeepStop();
+        }
+            UlRightDistance = hbot.mUltrasonic->GetUltrasonicRightDistance();
+            UlLeftDistance = hbot.mUltrasonic->GetUltrasonicLeftDistance();
+            if (UlRightDistance >= UlLeftDistance) {
+                hbot.SetSpeed(100);
+                hbot.TurnRight();
+                delay(310);
+            }
+            if (UlLeftDistance > UlRightDistance) {
+                hbot.SetSpeed(100);
+                hbot.TurnLeft();
+                delay(310);
+            }
+            if (UlLeftDistance <= UL_LIMIT_MIN && UlRightDistance <= UL_LIMIT_MIN ) {
+                hbot.SetSpeed(100);
+                hbot.Drive(0);
+                delay(530);
+                 hbot.KeepStop();
+            }
+            hbot.KeepStop();
+    }
 }
 
 void HandleUltrasonicAvoidance()
 {
     uint16_t UlFrontDistance,UlLeftDistance,UlRightDistance;
     UlFrontDistance =  hbot.mUltrasonic->GetUltrasonicFrontDistance();
-    if ((UlFrontDistance > UL_LIMIT_MID) && (UlFrontDistance < UL_LIMIT_MAX))
+    DEBUG_LOG(DEBUG_LEVEL_INFO, "UlFrontDistance =%d \n",UlFrontDistance);
+    if ((UlFrontDistance < UL_LIMIT_MIN))
     {
         hbot.SetSpeed(100);
-        hbot.GoForward();
+        hbot.GoBack();
+        delay(250);
     }
-    else if ((UlFrontDistance < UL_LIMIT_MIN) || (UlFrontDistance > UL_LIMIT_MAX))
+    if (UlFrontDistance < UL_LIMIT_MID)
     {
         hbot.KeepStop();
+        delay(100);
         UlRightDistance = hbot.mUltrasonic->GetUltrasonicRightDistance();
         UlLeftDistance = hbot.mUltrasonic->GetUltrasonicLeftDistance();
-        if((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX) && (UlRightDistance > UlLeftDistance))
+        if((UlRightDistance > UL_LIMIT_MIN) && (UlRightDistance < UL_LIMIT_MAX))
         {
             hbot.SetSpeed(80);
             hbot.TurnRight();
-            delay(200);
+            delay(310);
         }
-        else if((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX) && (UlLeftDistance > UlRightDistance))
+        else if((UlLeftDistance > UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MAX))
         {
             hbot.SetSpeed(80);
             hbot.TurnLeft();
-            delay(200);
+            delay(310);
         }
         else if((UlRightDistance < UL_LIMIT_MIN) && (UlLeftDistance < UL_LIMIT_MIN) )
         {
             hbot.SetSpeed(80);
             hbot.Drive(0);
-            delay(200);
+            delay(510);
         }
-    }
+    } else{
+          hbot.SetSpeed(80);
+          hbot.GoForward();
+      }
 }
 //=============================Infrared tracking
 void HandleInfraredTracing(void)
 {
+      static byte old;
       switch (hbot.mInfraredTracing->getValue()) {
         case IT_ALL_BLACK:
+          hbot.KeepStop();
+          break;
         case IT_ALL_WHITE:
+          if(old == IT_RIGHT1){ 
+              while(hbot.mInfraredTracing->getValue()==IT_ALL_WHITE){
+                  hbot.SetSpeed(70);
+                  hbot.Drive(174);
+              }
+            old = 0;
+            break;
+            } if(old == IT_LEFT1){
+                while(hbot.mInfraredTracing->getValue()==IT_ALL_WHITE){
+                    hbot.SetSpeed(70);
+                    hbot.Drive(6);
+                  }
+              old = 0;
+              break;
+            }  if(old == IT_RIGHT2){
+                while(hbot.mInfraredTracing->getValue()==IT_ALL_WHITE){
+                    hbot.SetSpeed(70);
+                    hbot.Drive(150);
+                  }
+              old = 0;
+              break;
+            } if(old == IT_LEFT2){
+                while(hbot.mInfraredTracing->getValue()==IT_ALL_WHITE){
+                    hbot.SetSpeed(70);
+                    hbot.Drive(30);
+                  }
+              old = 0;
+              break;
+              }
           hbot.KeepStop();
           break;
         case IT_CENTER:
-          hbot.SetSpeed(80);
+          hbot.SetSpeed(45);
           hbot.GoForward();
           break;
         case IT_RIGHT1:
-          hbot.SetSpeed(60);
-          hbot.Drive(160);
+          hbot.SetSpeed(70);
+          hbot.Drive(174);
+          old = IT_RIGHT1;
+          break;
+        case IT_RIGHT2:
+          hbot.SetSpeed(70);
+          hbot.Drive(150);
+          old = IT_RIGHT2;
           break;
         case IT_LEFT1:
-          hbot.SetSpeed(60);
-          hbot.Drive(30);
+          hbot.SetSpeed(70);
+          hbot.Drive(6);
+          old = IT_LEFT1;
           break;
-  }
+        case IT_LEFT2:
+          hbot.SetSpeed(70);
+          hbot.Drive(30);
+          old = IT_LEFT2;
+          break;
+      }
 }
 //========================= bluetooth
 void HandleBluetoothRemote()
@@ -197,6 +212,9 @@ void HandleBluetoothRemote()
             case E_ROBOT_CONTROL_SPEED:
                 hbot.SetSpeed(mProtocol->GetRobotSpeed());
                 break ;
+            case E_CONTROL_MODE:
+                hbot.SetControlMode(mProtocol->GetControlMode());
+                break;
             case E_VERSION:
                 break;
         }
@@ -233,7 +251,6 @@ void HandleInfaredRemote(byte irKeyCode)
           break;
     }
 }
-
 
 //====================================InfraredAvoidance
 void HandleInfraredAvoidance()
@@ -307,6 +324,13 @@ void HandlePS2()
 void loop()
 {
     mProtocol->RecevData();
+    if (hbot.GetControlMode() !=  E_BLUETOOTH_CONTROL) {
+        if (mProtocol->ParserPackage()) {
+            if (mProtocol->GetRobotControlFun() == E_CONTROL_MODE) {
+            hbot.SetControlMode(mProtocol->GetControlMode());
+           }
+        }
+    }
     switch(hbot.GetControlMode())
     {
         case E_BLUETOOTH_CONTROL:
@@ -329,8 +353,9 @@ void loop()
         case E_INFRARED_TRACKING_MODE:
             DEBUG_LOG(DEBUG_LEVEL_INFO, "E_INFRARED_TRACKING \n");
             HandleInfraredTracing();
+            hbot.SendTracingSignal();
             break;
-        case E_INFRARED_AVOIDANCE:
+        case E_INFRARED_AVOIDANCE_MODE:
             DEBUG_LOG(DEBUG_LEVEL_INFO, "E_INFRARED_AVOIDANCE \n");
             HandleInfraredAvoidance();
             break;
@@ -341,6 +366,8 @@ void loop()
 		    case E_ULTRASONIC_INFRARED_AVOIDANCE:
             DEBUG_LOG(DEBUG_LEVEL_INFO, "E_ULTRASONIC_INFRARED_AVOIDANCE \n");
             HandleUltrasonicInfraredAvoidance();
+            hbot.SendInfraredData();
+            hbot.SendUltrasonicData();
             break;
         case E_PS2_REMOTE_CONTROL:
             while (Ps2xStatus != 0) { //skip loop if no controller found
@@ -357,3 +384,4 @@ void loop()
             break;
     }
 }
+

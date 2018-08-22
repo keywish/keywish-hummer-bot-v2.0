@@ -20,7 +20,7 @@ SmartCar::~SmartCar()
 
 void SmartCar::SetControlMode(E_SMARTCAR_CONTROL_MODE mode)
 {
-    if (mode < E_SMARTCAR_CONTROL_MAX && mode > 0)
+    if (mode < E_SMARTCAR_CONTROL_MAX && mode >= 0)
     mControlMode = mode;
 }
 

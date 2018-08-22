@@ -20,12 +20,12 @@ public:
     E_CONTOROL_FUNC GetRobotControlFun();
     int GetRobotSpeed();
     int GetRobotDegree();
+    int GetControlMode();
     bool SendPackage(ST_PROTOCOL *send_dat,int len);
 
 private:
     byte buffer[BUFFER_SIZE];
     byte m_StartCode, m_EndCode;
-    bool recflag;
     ST_PROTOCOL *recv;
     uint8_t protocol_data_len;
     bool m_recv_flag, m_send_success;   // recevive flag

@@ -26,8 +26,8 @@ ProtocolParser::~ProtocolParser()
 
 bool ProtocolParser::ParserPackage(char *data = NULL)
 {
-    if (recflag) {
-        recflag = false;
+    if (m_recv_flag) {
+        m_recv_flag = false;
         if (data != NULL) {
             m_pHeader = data;
         } else {
@@ -88,7 +88,7 @@ bool ProtocolParser::RecevData(void)
                 *m_pHeader = dat;
                 m_RecvDataIndex++;
                 m_PackageLength = m_RecvDataIndex + 1;
-                recflag = true;
+                m_recv_flag = true;
                 DEBUG_LOG(DEBUG_LEVEL_INFO, "RecevData end \n");
                 return true;
            } else {
@@ -106,8 +106,8 @@ bool ProtocolParser::RecevData(void)
                         preRecvLen = 0;
                         m_pHeader = buffer;
                         avilable = false;
-                        recflag = false;
-                        Serial.println("preRecvLen\n");
+                        m_recv_flag = false;
+                        DEBUG_ERR("preRecvLen\n");
                         return false;
                 }
 
@@ -115,11 +115,11 @@ bool ProtocolParser::RecevData(void)
                     for (int i = 0; i < BUFFER_SIZE; i++) {
                         DEBUG_LOG(DEBUG_LEVEL_ERR, "%x ", buffer[i]);
                     }
-                    Serial.println("buffer is error\n");
+                    DEBUG_ERR("buffer is error\n");
                     preRecvLen = 0;
                     m_pHeader = buffer;
                     avilable = false;
-                    recflag = false;
+                    m_recv_flag = false;
                     return false;
                  }
             }
@@ -153,7 +153,7 @@ bool ProtocolParser::RecevData(char *data, size_t len)
                 *m_pHeader = dat;
                 m_RecvDataIndex++;
                 m_PackageLength = m_RecvDataIndex + 1;
-                recflag = true;
+                m_recv_flag = true;
                 DEBUG_LOG(DEBUG_LEVEL_INFO, "RecevData end \n");
                 return true;
            } else {
@@ -171,8 +171,8 @@ bool ProtocolParser::RecevData(char *data, size_t len)
                         preRecvLen = 0;
                         m_pHeader = buffer;
                         avilable = false;
-                        recflag = false;
-                        Serial.println("preRecvLen\n");
+                        m_recv_flag = false;
+                        DEBUG_ERR("Send length > BUFFER_SIZE\n");
                         return false;
                 }
 
@@ -180,11 +180,11 @@ bool ProtocolParser::RecevData(char *data, size_t len)
                     for (int i = 0; i < BUFFER_SIZE; i++) {
                         DEBUG_LOG(DEBUG_LEVEL_ERR, "%x ", buffer[i]);
                     }
-                    Serial.println("buffer is error\n");
+                    DEBUG_ERR("buffer is error\n");
                     preRecvLen = 0;
                     m_pHeader = buffer;
                     avilable = false;
-                    recflag = false;
+                    m_recv_flag = false;
                     return false;
                  }
             }
@@ -222,6 +222,15 @@ int ProtocolParser::GetRobotDegree()
 {
     if (recv->function == E_ROBOT_CONTROL_DIRECTION ) {
         return ((int)(*(recv->data)<< 8) | (int)(*(recv->data+1)));
+    } else {
+        return 0;
+    }
+}
+
+int ProtocolParser::GetControlMode()
+{
+    if (((E_CONTOROL_FUNC)recv->function) == E_CONTROL_MODE) {
+        return (byte)(*(recv->data));
     } else {
         return 0;
     }
@@ -270,7 +279,8 @@ bool ProtocolParser::SendPackage(ST_PROTOCOL *send_dat,int len)
     *(p_data + len + 1) = checksum & 0xFF;
     *(p_data + len + 2) = send_dat->end_code;
 
-    Serial.write(buffer,len);
+    Serial.write(buffer,len+8);
     Serial.flush();
+    delay(200);
     return true;
 }

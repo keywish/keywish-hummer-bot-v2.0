@@ -1,6 +1,7 @@
 
 #ifndef _INFRAREDAVOIDABCE_H_
 #define _INFRAREDAVOIDABCE_H_
+#define IA_THRESHOLD 40
 
 /* Includes ------------------------------------------------------------------*/
 #include <Arduino.h>
