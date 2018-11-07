@@ -31,4 +31,5 @@ Hummer-Bot is a multi-function car, it is based on the Arduino UNO and the L298N
 [Function](https://www.youtube.com/watch?v=1qj2kNGm4S0) </br>
 [Assembly](https://www.youtube.com/watch?v=fuo3Ugoi9Cs) </br>
 # Download Method
-![](https://github.com/keywish/keywish-hummer-bot/raw/master/Image.png)
+![](https://github.com/keywish/keywish-hummer-bot-v2.0/blob/master/Download_instructions.jpg)
+
