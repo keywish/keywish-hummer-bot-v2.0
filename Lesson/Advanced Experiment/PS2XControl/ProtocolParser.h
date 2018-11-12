@@ -20,6 +20,7 @@ public:
     E_CONTOROL_FUNC GetRobotControlFun();
     int GetRobotSpeed();
     int GetRobotDegree();
+	uint8_t GetBluetoothButton(void);
     int GetControlMode();
     bool SendPackage(ST_PROTOCOL *send_dat,int len);
 

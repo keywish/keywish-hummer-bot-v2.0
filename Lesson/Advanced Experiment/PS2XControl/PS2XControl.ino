@@ -3,17 +3,17 @@
 #include "KeyMap.h"
 #include "debug.h"
 
-#define INPUT2_PIN 10 // PWMB
-#define INPUT1_PIN 6  // DIRB  ---  right
-#define INPUT4_PIN 5  // PWMA
-#define INPUT3_PIN 9  // DIRA  ---  left
+#define INPUT1_PIN 6   // PWMB
+#define INPUT2_PIN 10  // DIRB  ---  right
+#define INPUT3_PIN 5   // DIRA  ---  left
+#define INPUT4_PIN 9   // PWMA
 #define PS2X_CLK 11
 #define PS2X_CMD 7
 #define PS2X_CS  8
 #define PS2X_DAT 4
 
 ProtocolParser *mProtocol = new ProtocolParser();
-Hummerbot hbot(mProtocol, INPUT2_PIN, INPUT1_PIN, INPUT3_PIN, INPUT4_PIN);
+Hummerbot hbot(mProtocol, INPUT1_PIN, INPUT2_PIN, INPUT3_PIN, INPUT4_PIN);
 byte Ps2xStatus, Ps2xType;
 
 void setup()
@@ -21,7 +21,7 @@ void setup()
     Serial.begin(9600);
     hbot.init();
     hbot.SetControlMode(E_PS2_REMOTE_CONTROL);
-    hbot.SetPs2xPin(HB_PS2X_CLK, HB_PS2X_CMD, HB_PS2X_ATT, HB_PS2X_DAT);
+    hbot.SetPs2xPin(PS2X_CLK, PS2X_CMD, PS2X_CS, PS2X_DAT);
     hbot.SetSpeed(0);
     Ps2xType = hbot.mPs2x->readType();
 }

@@ -29,7 +29,7 @@ bool ProtocolParser::ParserPackage(char *data = NULL)
     if (m_recv_flag) {
         m_recv_flag = false;
         if (data != NULL) {
-            m_pHeader = data;
+            m_pHeader = (byte *)data;
         } else {
             m_pHeader = buffer;
         }
@@ -211,7 +211,7 @@ E_CONTOROL_FUNC ProtocolParser::GetRobotControlFun()
 
 int ProtocolParser::GetRobotSpeed()
 {
-    if (recv->function == E_ROBOT_CONTROL_SPEED ) {
+    if (recv->function == E_ROBOT_CONTROL_SPEED) {
         return (int)(*(recv->data));
     } else {
         return 0;
@@ -220,11 +220,38 @@ int ProtocolParser::GetRobotSpeed()
 
 int ProtocolParser::GetRobotDegree()
 {
-    if (recv->function == E_ROBOT_CONTROL_DIRECTION ) {
+    if (recv->function == E_ROBOT_CONTROL_DIRECTION) {
         return ((int)(*(recv->data)<< 8) | (int)(*(recv->data+1)));
     } else {
         return 0;
     }
+}
+
+// up 0 down 1 left 2 right 3 speedup 4 speeddown 5
+uint8_t ProtocolParser::GetBluetoothButton(void) {
+    int dat = 0xFF;
+	static int speed = 0;
+	if (recv->function == E_ROBOT_CONTROL_DIRECTION) {
+		dat = (int)(*(recv->data)<< 8) | (int)(*(recv->data+1));
+		if (dat == 0 || dat == 360) {
+			return 2;
+		} else if (dat == 90) {
+			return 0;
+		} else if (dat == 180) {
+			return 1;
+		} else if (dat == 270) {
+			return 3;
+		}
+	} else if (recv->function == E_ROBOT_CONTROL_DIRECTION) {
+		dat = (int)(*(recv->data));
+		if (dat > speed) {
+			speed = dat;
+			return 4;
+		} else if (dat < speed) {
+			speed = dat;
+			return 5;
+		}
+	}
 }
 
 int ProtocolParser::GetControlMode()

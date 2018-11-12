@@ -3,7 +3,7 @@
 SmartCar::SmartCar(String name, byte type, byte addr, E_SMARTCAR_CONTROL_MODE control_mode = E_BLUETOOTH_CONTROL)
 {
     SmartCarName = name;
-    SmartCarType = type;
+    SmartCarType = (E_TYPE)type;
     Addr = addr;
     mControlMode = control_mode;
     mStatus = E_STOP;

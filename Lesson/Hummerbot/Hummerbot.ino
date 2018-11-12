@@ -3,10 +3,10 @@
 #include "KeyMap.h"
 #include "debug.h"
 
-#define INPUT2_PIN 10 // PWMB
-#define INPUT1_PIN 6  // DIRB  ---  right
-#define INPUT4_PIN 5  // PWMA
-#define INPUT3_PIN 9  // DIRA  ---  left
+#define INPUT1_PIN 6   // PWMB
+#define INPUT2_PIN 10  // DIRB  ---  right
+#define INPUT3_PIN 5   // DIRA  ---  left
+#define INPUT4_PIN 9   // PWMA
 #define IR_PIN 12
 #define SERVO_PIN 13
 #define ECHO_PIN 3
@@ -22,7 +22,7 @@
 #define INFRARED_AVOIDANCE_RIGHT_PIN A4
 
 ProtocolParser *mProtocol = new ProtocolParser();
-Hummerbot hbot(mProtocol, INPUT2_PIN, INPUT1_PIN, INPUT3_PIN, INPUT4_PIN);
+Hummerbot hbot(mProtocol, INPUT1_PIN, INPUT2_PIN, INPUT3_PIN, INPUT4_PIN);
 byte Ps2xStatus, Ps2xType;
 
 void setup()
@@ -30,11 +30,11 @@ void setup()
     Serial.begin(9600);
     hbot.init();
     hbot.SetControlMode(E_BLUETOOTH_CONTROL);
-    hbot.SetIrPin(HB_IR_PIN);
-    hbot.SetInfraredAvoidancePin(HB_INFRARED_AVOIDANCE_LEFT_PIN, HB_INFRARED_AVOIDANCE_RIGHT_PIN);
-    hbot.SetUltrasonicPin(HB_TRIGPIN, HB_ECHOPIN, HB_SERVOPIN);
-    hbot.SetInfraredTracingPin(HB_INFRARED_TRACING_PIN1, HB_INFRARED_TRACING_PIN2, HB_INFRARED_TRACING_PIN3);
-    hbot.SetPs2xPin(HB_PS2X_CLK, HB_PS2X_CMD, HB_PS2X_ATT, HB_PS2X_DAT);
+    hbot.SetIrPin(IR_PIN);
+    hbot.SetInfraredAvoidancePin(INFRARED_AVOIDANCE_LEFT_PIN, INFRARED_AVOIDANCE_RIGHT_PIN);
+    hbot.SetUltrasonicPin(TRIG_PIN, ECHO_PIN, SERVO_PIN);
+    hbot.SetInfraredTracingPin(INFRARED_TRACING_PIN1, INFRARED_TRACING_PIN2, INFRARED_TRACING_PIN3);
+    hbot.SetPs2xPin(PS2X_CLK, PS2X_CMD, PS2X_CS, PS2X_DAT);
     hbot.SetSpeed(0);
     Ps2xType = hbot.mPs2x->readType();
     hbot.mUltrasonic->SetServoBaseDegree(90);
@@ -355,7 +355,7 @@ void loop()
             HandleInfraredTracing();
             hbot.SendTracingSignal();
             break;
-        case E_INFRARED_AVOIDANCE_MODE:
+        case E_INFRARED_AVOIDANCE:
             DEBUG_LOG(DEBUG_LEVEL_INFO, "E_INFRARED_AVOIDANCE \n");
             HandleInfraredAvoidance();
             break;

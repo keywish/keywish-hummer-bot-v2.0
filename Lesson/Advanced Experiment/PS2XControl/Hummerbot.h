@@ -11,10 +11,10 @@
 #include "Ultrasonic.h"
 
 #define HB_IR_PIN 12
-#define HB_INPUT2_PIN 10
 #define HB_INPUT1_PIN 6
-#define HB_INPUT4_PIN 5
-#define HB_INPUT3_PIN 9
+#define HB_INPUT2_PIN 10
+#define HB_INPUT4_PIN 9
+#define HB_INPUT3_PIN 5
 
 #define HB_TRIGPIN 2
 #define HB_ECHOPIN 3
@@ -44,7 +44,7 @@ private :
     ProtocolParser *mProtocolPackage;
 
 public :
-    Hummerbot(ProtocolParser *Package, uint8_t input2 = HB_INPUT2_PIN, uint8_t input1 = HB_INPUT1_PIN, uint8_t input3 = HB_INPUT3_PIN, uint8_t input4 = HB_INPUT4_PIN);
+    Hummerbot(ProtocolParser *Package, uint8_t input1 = HB_INPUT1_PIN, uint8_t input2 = HB_INPUT2_PIN, uint8_t input3 = HB_INPUT3_PIN, uint8_t input4 = HB_INPUT4_PIN);
     ~Hummerbot();
     IRremote  *mIrRecv;
     PS2X *mPs2x;
@@ -60,10 +60,13 @@ public :
     void Drive(void);
     void Drive(int degree);
     void SetIrPin(uint8_t pin = HB_IR_PIN);
+	void SetMotorPin(uint8_t input2, uint8_t input1, uint8_t input3, uint8_t input4);
     void SetUltrasonicPin(uint8_t Trig_Pin = HB_TRIGPIN, uint8_t Echo_Pin = HB_ECHOPIN, uint8_t Sevo_Pin = HB_SERVOPIN);
     void SetInfraredAvoidancePin(uint8_t Left_Pin = HB_INFRARED_AVOIDANCE_LEFT_PIN, uint8_t Right_Pin = HB_INFRARED_AVOIDANCE_RIGHT_PIN);
     void SetInfraredTracingPin(uint8_t Pin1 = HB_INFRARED_TRACING_PIN1, uint8_t Pin2 = HB_INFRARED_TRACING_PIN2, uint8_t Pin3 = HB_INFRARED_TRACING_PIN3);
     int SetPs2xPin(uint8_t clk = HB_PS2X_CLK, uint8_t cmd = HB_PS2X_CMD, uint8_t att = HB_PS2X_ATT, uint8_t dat = HB_PS2X_DAT);
+    uint16_t GetUltrasonicDistance(byte);//front 0 left 1 right 2
+    uint8_t GetInfraredAvoidance(byte); //left 0 right 2
     int ResetPs2xPin(void);
     void SendBatteryPackage(byte *battery_value);
     void SendTracingSignal();
