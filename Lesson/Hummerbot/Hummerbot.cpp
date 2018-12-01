@@ -113,39 +113,31 @@ void Hummerbot::Drive(int degree)
 	DEBUG_LOG(DEBUG_LEVEL_INFO, "degree = %d speed = %d\n", degree, Speed);
 	int value = (Speed / 10) * 25.5;	 //app contol hbot_speed is 0 ~ 100 ,pwm is 0~255
 	float f;
-	if ((0 <= degree && degree <= 5 )|| (degree >= 355 && degree <= 360) ) {
-		TurnRight();
-	} else if (degree > 5 && degree <= 80) {
-		f = (float)(degree) / 79;
+    if (degree >= 0 && degree <= 90) {
+		f = (float)(degree) / 90;
     analogWrite(InPut1PIN, value);
 		analogWrite(InPut2PIN, LOW);
 		analogWrite(InPut3PIN, LOW);
 		analogWrite(InPut4PIN, (float)(value * f));
 		DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnRight\n");
 		SetStatus(E_RIGHT);
-	} else if (degree > 80 && degree < 100) {
-		GoForward();
-	} else if (degree >= 100 && degree < 175) {
-		f = (float)(180 - degree) / 79;
+	} else if (degree > 90 && degree <= 180) {
+		f = (float)(180 - degree) / 90;
 		analogWrite (InPut1PIN, (float)(value * f));
     analogWrite(InPut2PIN, LOW);
 		analogWrite(InPut3PIN, LOW);
 		analogWrite(InPut4PIN, value);
 		SetStatus(E_LEFT);
-	} else if((175 <= degree && degree <= 185)){
-		TurnLeft();
-	} else if (degree > 185 && degree <= 260) {
-		f = (float)(degree - 180) / 79;
+	} else if (degree > 180 && degree <= 270) {
+		f = (float)(degree - 180) / 90;
 	    analogWrite(InPut1PIN, LOW);
 		analogWrite(InPut2PIN, value * f);
 		analogWrite(InPut3PIN, (float)(value));
 		analogWrite(InPut4PIN, LOW);
 		DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnLeft\n");
 		SetStatus(E_LEFT);
-	} else if (degree > 260 && degree < 280) {
-		GoBack();
-	} else if (degree >= 280 && degree < 355) {
-		f = (float)(360 - degree) / 79;
+	} else if(degree >=270 && degree <= 360) {
+		f = (float)(360 - degree) / 90;
 		analogWrite(InPut1PIN, LOW);
 		analogWrite(InPut2PIN, (float)(value));
 		analogWrite(InPut3PIN, value* f);
