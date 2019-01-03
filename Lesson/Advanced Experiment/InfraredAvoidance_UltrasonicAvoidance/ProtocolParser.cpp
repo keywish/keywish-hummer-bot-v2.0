@@ -2,8 +2,13 @@
 #include "ProtocolParser.h"
 #define DEBUG_LEVEL DEBUG_LEVEL_ERR
 #include "debug.h"
+#include "SmartCar.h"
 
+#if ARDUINO > 10609
 ProtocolParser::ProtocolParser(byte startcode = PROTOCOL_START_CODE, byte endcode = PROTOCOL_END_CODE)
+#else
+ProtocolParser::ProtocolParser(byte startcode , byte endcode )
+#endif
 {
     m_recv_flag = false;
     m_send_success = false;
@@ -19,12 +24,15 @@ ProtocolParser::ProtocolParser(byte startcode = PROTOCOL_START_CODE, byte endcod
     }
 }
 
-ProtocolParser::~ProtocolParser()
+ProtocolParser::~ProtocolParser(void)
 {
     m_pHeader = NULL;
 }
-
+#if ARDUINO > 10609
 bool ProtocolParser::ParserPackage(char *data = NULL)
+#else
+bool ProtocolParser::ParserPackage(char *data )
+#endif
 {
     if (m_recv_flag) {
         m_recv_flag = false;
@@ -128,7 +136,11 @@ bool ProtocolParser::RecevData(void)
     return avilable;
 }
 
+#if ARDUINO > 10609
+bool ProtocolParser::RecevData(char *data=NULL, size_t len=0)
+#else
 bool ProtocolParser::RecevData(char *data, size_t len)
+#endif
 {
     DEBUG_LOG(DEBUG_LEVEL_INFO, "RecevData start \n");
     static bool avilable = false;
@@ -228,38 +240,52 @@ int ProtocolParser::GetRobotDegree()
 }
 
 // up 0 down 1 left 2 right 3 speedup 4 speeddown 5
-uint8_t ProtocolParser::GetBluetoothButton(void) {
+uint8_t ProtocolParser::GetBluetoothButton(void) 
+{
     int dat = 0xFF;
 	static int speed = 0;
-	if (recv->function == E_ROBOT_CONTROL_DIRECTION) {
+	if (recv->function == E_ROBOT_CONTROL_DIRECTION) 
+	{
 		dat = (int)(*(recv->data)<< 8) | (int)(*(recv->data+1));
-		if (dat == 0 || dat == 360) {
+		if (dat == 0 || dat == 360) 
+		{
 			return 2;
-		} else if (dat == 90) {
+		} 
+		else if (dat == 90) 
+		{
 			return 0;
-		} else if (dat == 180) {
+		} 
+		else if (dat == 180) 
+		{
 			return 1;
-		} else if (dat == 270) {
+		} 
+		else if (dat == 270) 
+		{
 			return 3;
 		}
-	} else if (recv->function == E_ROBOT_CONTROL_DIRECTION) {
+	} 
+	else if (recv->function == E_ROBOT_CONTROL_DIRECTION) 
+	{
 		dat = (int)(*(recv->data));
-		if (dat > speed) {
+		if (dat > speed) 
+		{
 			speed = dat;
 			return 4;
-		} else if (dat < speed) {
+		} 
+		else if (dat < speed) 
+		{
 			speed = dat;
 			return 5;
 		}
 	}
 }
 
-int ProtocolParser::GetControlMode()
+E_SMARTCAR_CONTROL_MODE ProtocolParser::GetControlMode(void)
 {
     if (((E_CONTOROL_FUNC)recv->function) == E_CONTROL_MODE) {
-        return (byte)(*(recv->data));
+        return (E_SMARTCAR_CONTROL_MODE)(*(recv->data));
     } else {
-        return 0;
+        return (E_SMARTCAR_CONTROL_MODE)0;
     }
 }
 

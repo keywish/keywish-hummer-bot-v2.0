@@ -13,7 +13,7 @@ class InfraredAvoidance
 
   public:
     InfraredAvoidance(byte pin1, byte pin2);
-    uint16_t GetInfraredAvoidanceLeftValue();
-    uint16_t GetInfraredAvoidanceRightValue();
+    uint8_t GetInfraredAvoidanceLeftValue();
+    uint8_t GetInfraredAvoidanceRightValue();
 };
 #endif

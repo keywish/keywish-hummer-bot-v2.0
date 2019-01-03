@@ -10,14 +10,14 @@ InfraredAvoidance::InfraredAvoidance(byte pin1, byte pin2)
   pinMode(InfraredAvoidancePin2, INPUT);
 
 }
-uint16_t InfraredAvoidance ::GetInfraredAvoidanceLeftValue()
+uint8_t InfraredAvoidance ::GetInfraredAvoidanceLeftValue()
 {
   Left = analogRead(InfraredAvoidancePin2);
   return Left;
 }
 
 
-uint16_t InfraredAvoidance :: GetInfraredAvoidanceRightValue()
+uint8_t InfraredAvoidance :: GetInfraredAvoidanceRightValue()
 {
   Right = analogRead(InfraredAvoidancePin1);
   return Right;

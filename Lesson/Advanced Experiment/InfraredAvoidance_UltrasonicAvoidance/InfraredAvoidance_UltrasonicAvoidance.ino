@@ -3,10 +3,10 @@
 #include "KeyMap.h"
 #include "debug.h"
 
-#define INPUT1_PIN 6   // PWMB
-#define INPUT2_PIN 10  // DIRB  ---  right
-#define INPUT3_PIN 5   // DIRA  ---  left
-#define INPUT4_PIN 9   // PWMA
+#define INPUT2_PIN 10 // PWMB
+#define INPUT1_PIN 6  // DIRB  ---  right
+#define INPUT4_PIN 5  // PWMA
+#define INPUT3_PIN 9  // DIRA  ---  left
 #define SERVO_PIN 13
 #define ECHO_PIN 3
 #define TRIG_PIN 2
@@ -14,14 +14,14 @@
 #define INFRARED_AVOIDANCE_RIGHT_PIN A4
 
 ProtocolParser *mProtocol = new ProtocolParser();
-Hummerbot hbot(mProtocol, INPUT1_PIN, INPUT2_PIN, INPUT3_PIN, INPUT4_PIN);
+Hummerbot hbot(mProtocol, INPUT2_PIN, INPUT1_PIN, INPUT3_PIN, INPUT4_PIN);
 
 void setup()
 {
     Serial.begin(9600);
     hbot.init();
     hbot.SetControlMode(E_ULTRASONIC_INFRARED_AVOIDANCE);
-    hbot.SetUltrasonicPin(TRIG_PIN, ECHO_PIN, SERVO_PIN);
+    hbot.SetUltrasonicPin(HB_TRIGPIN, HB_ECHOPIN, HB_SERVOPIN);
     hbot.SetSpeed(0);
     hbot.mUltrasonic->SetServoBaseDegree(90);
     hbot.mUltrasonic->SetServoDegree(90);

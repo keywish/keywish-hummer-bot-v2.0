@@ -24,7 +24,7 @@ class Ultrasonic
     uint16_t GetUltrasonicFrontDistance();
     uint16_t GetUltrasonicLeftDistance();
     uint16_t GetUltrasonicRightDistance();
-    SetServoBaseDegree(uint8_t base);
-    SetServoDegree(int degree);
+    void SetServoBaseDegree(uint8_t base);
+    void SetServoDegree(int degree);
 };
 #endif

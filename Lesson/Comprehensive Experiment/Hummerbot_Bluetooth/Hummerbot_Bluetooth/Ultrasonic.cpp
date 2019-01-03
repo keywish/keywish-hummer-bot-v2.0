@@ -46,12 +46,12 @@ uint16_t Ultrasonic::GetUltrasonicRightDistance()
     return RightDistance;
 }
 
-Ultrasonic::SetServoBaseDegree(uint8_t base)
+void Ultrasonic::SetServoBaseDegree(uint8_t base)
 {
     ServoBaseDegree = base;
 }
 
-Ultrasonic::SetServoDegree(int Angle)
+void Ultrasonic::SetServoDegree(int Angle)
 {
 	int Degree = Angle;
 	int servo_degree;

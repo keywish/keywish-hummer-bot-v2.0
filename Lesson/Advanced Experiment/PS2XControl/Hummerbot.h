@@ -66,12 +66,12 @@ public :
     void SetInfraredTracingPin(uint8_t Pin1 = HB_INFRARED_TRACING_PIN1, uint8_t Pin2 = HB_INFRARED_TRACING_PIN2, uint8_t Pin3 = HB_INFRARED_TRACING_PIN3);
     int SetPs2xPin(uint8_t clk = HB_PS2X_CLK, uint8_t cmd = HB_PS2X_CMD, uint8_t att = HB_PS2X_ATT, uint8_t dat = HB_PS2X_DAT);
     uint16_t GetUltrasonicDistance(byte);//front 0 left 1 right 2
-    uint8_t GetInfraredAvoidance(byte); //left 0 right 2
+    uint8_t GetInfraredAvoidance(byte); //left 0 right 1
     int ResetPs2xPin(void);
     void SendBatteryPackage(byte *battery_value);
-    void SendTracingSignal();
-    void SendInfraredData();
-    void SendUltrasonicData();
+    void SendTracingSignal(void);
+    void SendInfraredData(void);
+    void SendUltrasonicData(void);
     void init(void);
 };
 

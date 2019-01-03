@@ -13,7 +13,7 @@ Hummerbot::Hummerbot(ProtocolParser *Package, uint8_t input1, uint8_t input2, ui
 	Speed = 0;
 }
 
-Hummerbot::~Hummerbot()
+Hummerbot::~Hummerbot(void)
 {
     delete mIrRecv;
     delete mPs2x;
@@ -22,7 +22,11 @@ Hummerbot::~Hummerbot()
     delete mUltrasonic;
 }
 
+#if ARDUINO > 10609
+void Hummerbot::SetMotorPin(uint8_t input1=HB_INPUT1_PIN, uint8_t input2=HB_INPUT2_PIN, uint8_t input3=HB_INPUT3_PIN, uint8_t input4=HB_INPUT4_PIN)
+#else
 void Hummerbot::SetMotorPin(uint8_t input1, uint8_t input2, uint8_t input3, uint8_t input4)
+#endif
 {
     this->InPut1PIN = input1;
     this->InPut2PIN = input2;
@@ -82,7 +86,7 @@ void Hummerbot::KeepStop(void)
     analogWrite(InPut4PIN, LOW);
 }
 
-void Hummerbot::TurnLeft()
+void Hummerbot::TurnLeft(void)
 {
     int value = (Speed/10)*25.5;   //app contol hbot_speed is 0 ~ 100 ,pwm is 0~255
     DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnLeft =%d \n",value);
@@ -93,7 +97,7 @@ void Hummerbot::TurnLeft()
     SetStatus(E_LEFT);
 }
 
-void Hummerbot::TurnRight()
+void Hummerbot::TurnRight(void)
 {
     int value = (Speed/10)*25.5;   //app contol hbot_speed is 0 ~ 100 ,pwm is 0~255
     analogWrite(InPut1PIN, value);
@@ -108,44 +112,40 @@ void Hummerbot::Drive(void)
     Drive(Degree);
 }
 
+#if ARDUINO > 10609
+void Hummerbot::Drive(int degree=90)
+#else
 void Hummerbot::Drive(int degree)
+#endif
 {
 	DEBUG_LOG(DEBUG_LEVEL_INFO, "degree = %d speed = %d\n", degree, Speed);
 	int value = (Speed / 10) * 25.5;	 //app contol hbot_speed is 0 ~ 100 ,pwm is 0~255
 	float f;
-	if ((0 <= degree && degree <= 5 )|| (degree >= 355 && degree <= 360) ) {
-		TurnRight();
-	} else if (degree > 5 && degree <= 80) {
-		f = (float)(degree) / 79;
+    if (degree >= 0 && degree <= 90) {
+		f = (float)(degree) / 90;
     analogWrite(InPut1PIN, value);
 		analogWrite(InPut2PIN, LOW);
 		analogWrite(InPut3PIN, LOW);
 		analogWrite(InPut4PIN, (float)(value * f));
 		DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnRight\n");
 		SetStatus(E_RIGHT);
-	} else if (degree > 80 && degree < 100) {
-		GoForward();
-	} else if (degree >= 100 && degree < 175) {
-		f = (float)(180 - degree) / 79;
+	} else if (degree > 90 && degree <= 180) {
+		f = (float)(180 - degree) / 90;
 		analogWrite (InPut1PIN, (float)(value * f));
     analogWrite(InPut2PIN, LOW);
 		analogWrite(InPut3PIN, LOW);
 		analogWrite(InPut4PIN, value);
 		SetStatus(E_LEFT);
-	} else if((175 <= degree && degree <= 185)){
-		TurnLeft();
-	} else if (degree > 185 && degree <= 260) {
-		f = (float)(degree - 180) / 79;
+	} else if (degree > 180 && degree <= 270) {
+		f = (float)(degree - 180) / 90;
 	    analogWrite(InPut1PIN, LOW);
 		analogWrite(InPut2PIN, value * f);
 		analogWrite(InPut3PIN, (float)(value));
 		analogWrite(InPut4PIN, LOW);
 		DEBUG_LOG(DEBUG_LEVEL_INFO, "TurnLeft\n");
 		SetStatus(E_LEFT);
-	} else if (degree > 260 && degree < 280) {
-		GoBack();
-	} else if (degree >= 280 && degree < 355) {
-		f = (float)(360 - degree) / 79;
+	} else if(degree >=270 && degree <= 360) {
+		f = (float)(360 - degree) / 90;
 		analogWrite(InPut1PIN, LOW);
 		analogWrite(InPut2PIN, (float)(value));
 		analogWrite(InPut3PIN, value* f);
@@ -158,14 +158,22 @@ void Hummerbot::Drive(int degree)
 	}
 }
 
+#if ARDUINO > 10609
 void Hummerbot::SetIrPin(uint8_t pin = HB_IR_PIN)
+#else
+void Hummerbot::SetIrPin(uint8_t pin )
+#endif
 {
 	IrPin = pin;
 	mIrRecv = new IRremote (IrPin);
 	mIrRecv->begin();  // Initialize the infrared receiver
 }
 
+#if ARDUINO > 10609
 void Hummerbot::SetInfraredTracingPin(uint8_t Pin1 = HB_INFRARED_TRACING_PIN1, uint8_t Pin2 = HB_INFRARED_TRACING_PIN2, uint8_t Pin3 = HB_INFRARED_TRACING_PIN3)
+#else
+void Hummerbot::SetInfraredTracingPin(uint8_t Pin1, uint8_t Pin2, uint8_t Pin3)
+#endif
 {
     static bool InfraredTracingInit = false;
     if (!InfraredTracingInit) {
@@ -178,7 +186,11 @@ void Hummerbot::SetInfraredTracingPin(uint8_t Pin1 = HB_INFRARED_TRACING_PIN1, u
     }
 }
 
+#if ARDUINO > 10609
 int Hummerbot::SetPs2xPin(uint8_t clk = HB_PS2X_CLK, uint8_t cmd = HB_PS2X_CMD, uint8_t att = HB_PS2X_ATT, uint8_t dat = HB_PS2X_DAT)
+#else
+int Hummerbot::SetPs2xPin(uint8_t clk , uint8_t cmd , uint8_t att , uint8_t dat)
+#endif
 {
     static bool Ps2xInit = false;
     int error = 0 ;
@@ -219,8 +231,11 @@ int Hummerbot::ResetPs2xPin(void)
 	}
 	return error;
 }
-
+#if ARDUINO > 10609
 void Hummerbot::SetUltrasonicPin(uint8_t Trig_Pin = HB_TRIGPIN, uint8_t Echo_Pin = HB_ECHOPIN, uint8_t Sevo_Pin = HB_SERVOPIN)
+#else
+void Hummerbot::SetUltrasonicPin(uint8_t Trig_Pin, uint8_t Echo_Pin , uint8_t Sevo_Pin)
+#endif
 {
     static bool UltrasonicInit = false;
     if (!UltrasonicInit) {
@@ -232,7 +247,11 @@ void Hummerbot::SetUltrasonicPin(uint8_t Trig_Pin = HB_TRIGPIN, uint8_t Echo_Pin
     }
 }
  //front 0 left 1 right 2
+ #if ARDUINO > 10609
+uint16_t Hummerbot::GetUltrasonicDistance(byte direction=0)
+#else
 uint16_t Hummerbot::GetUltrasonicDistance(byte direction)
+#endif
 {
 	if (direction == 0) {
 		return mUltrasonic->GetUltrasonicFrontDistance();
@@ -243,7 +262,11 @@ uint16_t Hummerbot::GetUltrasonicDistance(byte direction)
 	}
 }
 
+ #if ARDUINO > 10609
+void Hummerbot::SetInfraredAvoidancePin(uint8_t Left_Pin=HB_INFRARED_AVOIDANCE_LEFT_PIN, uint8_t Right_Pin=HB_INFRARED_AVOIDANCE_RIGHT_PIN)
+#else
 void Hummerbot::SetInfraredAvoidancePin(uint8_t Left_Pin, uint8_t Right_Pin)
+#endif
 {
 	static bool InfraredAvoidanceInit = false;
 	if (!InfraredAvoidanceInit) {
@@ -255,7 +278,11 @@ void Hummerbot::SetInfraredAvoidancePin(uint8_t Left_Pin, uint8_t Right_Pin)
 }
 
 //left 0 right 1
+#if ARDUINO > 10609
+uint8_t Hummerbot::GetInfraredAvoidance(byte direction=0)
+#else
 uint8_t Hummerbot::GetInfraredAvoidance(byte direction)
+#endif
 {
   if (direction == 0 ) {
     return mInfraredAvoidance->GetInfraredAvoidanceLeftValue();
@@ -264,7 +291,8 @@ uint8_t Hummerbot::GetInfraredAvoidance(byte direction)
   }
 }
 
-void Hummerbot::SendTracingSignal(){
+void Hummerbot::SendTracingSignal(void)
+{
     unsigned int TracingSignal = mInfraredTracing->getValue();
     SendData.start_code = 0xAA;
     SendData.type = (E_TYPE)0x01;
@@ -276,7 +304,8 @@ void Hummerbot::SendTracingSignal(){
     mProtocolPackage->SendPackage(&SendData, 1);
 }
 
-void Hummerbot::SendInfraredData(){
+void Hummerbot::SendInfraredData(void)
+{
     unsigned int RightValue = mInfraredAvoidance->GetInfraredAvoidanceRightValue();
     unsigned int LeftValue = mInfraredAvoidance->GetInfraredAvoidanceLeftValue();
     byte buffer[2];
@@ -292,7 +321,8 @@ void Hummerbot::SendInfraredData(){
     mProtocolPackage->SendPackage(&SendData, 2);
 }
 
-void Hummerbot::SendUltrasonicData(void){
+void Hummerbot::SendUltrasonicData(void)
+{
     uint16_t UlFrontDistance = mUltrasonic->GetUltrasonicFrontDistance();
     SendData.start_code = 0xAA;
     SendData.type = (E_TYPE)0x01;

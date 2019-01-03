@@ -2,6 +2,7 @@
 #define   _PROTOCOLPARSER_H_
 #include "Arduino.h"
 #include "Protocol.h"
+#include "SmartCar.h"
 #include <stdint.h>
 
 #define BUFFER_SIZE 24
@@ -20,7 +21,8 @@ public:
     E_CONTOROL_FUNC GetRobotControlFun();
     int GetRobotSpeed();
     int GetRobotDegree();
-    int GetControlMode();
+	uint8_t GetBluetoothButton(void);
+   E_SMARTCAR_CONTROL_MODE GetControlMode(void);
     bool SendPackage(ST_PROTOCOL *send_dat,int len);
 
 private:

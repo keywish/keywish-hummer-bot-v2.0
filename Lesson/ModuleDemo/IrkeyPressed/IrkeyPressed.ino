@@ -1,4 +1,4 @@
-#include "IRremote.h"
+#include "IR_remote.h"
 
 IRremote ir(8);
 

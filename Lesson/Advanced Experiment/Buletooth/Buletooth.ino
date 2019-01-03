@@ -3,13 +3,13 @@
 #include "KeyMap.h"
 #include "debug.h"
 
-#define INPUT1_PIN 6   // PWMB
-#define INPUT2_PIN 10  // DIRB  ---  right
-#define INPUT3_PIN 5   // DIRA  ---  left
-#define INPUT4_PIN 9   // PWMA
+#define INPUT2_PIN 10 // PWMB
+#define INPUT1_PIN 6  // DIRB  ---  right
+#define INPUT4_PIN 5  // PWMA
+#define INPUT3_PIN 9  // DIRA  ---  left
 
 ProtocolParser *mProtocol = new ProtocolParser();
-Hummerbot hbot(mProtocol, INPUT1_PIN, INPUT2_PIN, INPUT3_PIN, INPUT4_PIN);
+Hummerbot hbot(mProtocol, INPUT2_PIN, INPUT1_PIN, INPUT3_PIN, INPUT4_PIN);
 
 void setup()
 {
