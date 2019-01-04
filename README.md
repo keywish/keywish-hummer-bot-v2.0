@@ -7,9 +7,6 @@ The latest information download address: https://github.com/keywish/keywish-humm
 # Hummer-bot 
 ![](https://github.com/keywish/keywish-hummer-bot-v2.0/blob/master/hummer_bot2.0.jpg)
 
-# Component List
-![](https://github.com/keywish/keywish-hummer-bot-v2.0/blob/master/ComponentList.png)
-
 # Introduction
 Hummer-Bot is a multi-function car, it is based on the Arduino UNO and the L298N motor drive module. You can freely install various sensor modules such as servo, ultrasonic, infrared obstacle avoidance, infrared tracking, etc. It can trace and avoid obstacles automatically, and it supports multiple remote control methods: infrared remote control, Bluetooth APP, PS2 handle (optional). And we will provide CD with the best tutorial including the programs and codes which bring you to the robot car world. It is the best choice for electronics enthusiasts, makers, and Arduino enthusiasts.
 # Feature
