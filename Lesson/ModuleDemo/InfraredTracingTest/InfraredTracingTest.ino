@@ -1,47 +1,42 @@
-int E1 = 5; //PWMA
-int M1 = 9; //DIRA****************************************left
-int E2 = 6; //PWMB
-int M2 = 10; //DIRB****************************************right
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1e4a15db1ab979ff5589c0725b45aaac1a394517
 void setup() {
 	Serial.begin(9600);
+        pinMode(A0,INPUT);
+        pinMode(A1,INPUT);
+        pinMode(A2,INPUT);        
 }
-
 void loop() {
-	int left1, centre, right1;
-	left1 = analogRead(A0);
+	int left, centre, right;
+	left = analogRead(A0);
 	centre = analogRead(A1);
-	right1 = analogRead(A2);
+	right = analogRead(A2);
+<<<<<<< HEAD
 
-	if ((right1 >= 975) && (centre <= 8) && (left1 >= 975)) {//*******straight*******//
-		int val = 150;
-		analogWrite(M1, 0);
-		analogWrite(E1, val); //the speed value of motorA is val
-		analogWrite(M2, 0);
-		analogWrite(E2, val); //the speed value of motorB is val
-	}
+        Serial.print("left:");
+	Serial.print(left);
+	Serial.println("   ");
+        
+	Serial.print("centre:");
+	Serial.print(centre);
+	Serial.print("   ");
 
-	else if ((right1 <= 8) && (centre >= 975) && (left1 >= 975)) {//***Left bias,Turn right***//
-		int val = 150;
-		analogWrite(E1, 0);
-		analogWrite(M1, val); //the speed value of motorA is val
-		analogWrite(M2, 0);
-		analogWrite(E2, val); //the speed value of motorB is val
-	}
+        Serial.print("right:");
+	Serial.print(right);
+	Serial.print("   ");	
 
-	else if ((right1 >= 975) && (centre >= 975) && (left1 <= 8)) {//***Turn bias，Left right***//
-		int val = 130;
-		analogWrite(M1, 0);
-		analogWrite(E1, val); //the speed value of motorA is val
-		analogWrite(E2, 0);
-		analogWrite(M2, val); //the speed value of motorB is val
-	}
-
-	if ((right1 <= 8) && (centre <= 8) && (left1 <= 8)) {//*******straight*******//
-		int val = 130;
-		analogWrite(M1, 0);
-		analogWrite(E1, val); //the speed value of motorA is val
-		analogWrite(M2, 0);
-		analogWrite(E2, val); //the speed value of motorB is val
-	}
 }
+=======
+	Serial.print("right:");
+	Serial.print(right);
+	Serial.print("   ");
+	Serial.print("centre:");
+	Serial.print(centre);
+	Serial.print("   ");
+	Serial.print("left:");
+	Serial.print(left);
+	Serial.println("   ");
+}
+>>>>>>> 1e4a15db1ab979ff5589c0725b45aaac1a394517
