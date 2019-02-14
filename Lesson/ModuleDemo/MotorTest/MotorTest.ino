@@ -1,56 +1,57 @@
-int E1 = 5; //PWMA
-int M1 = 9; //PWMA
-int E2 = 6; //PWMB
-int M2 = 10; //PWMB
+#define HB_INPUT1_PIN 6
+#define HB_INPUT2_PIN 10
+#define HB_INPUT3_PIN 5
+#define HB_INPUT4_PIN 9
+
 void setup() {
-    Serial.begin(9600);
-    pinMode(E1, OUTPUT);
-    digitalWrite(E1, LOW); // When not sending PWM, we want it low
-    pinMode(M1, OUTPUT);
-    digitalWrite(M1, LOW); // When not sending PWM, we want it low
-    pinMode(E2, OUTPUT);
-    digitalWrite(E2, LOW); // When not sending PWM, we want it low
-    pinMode(M2, OUTPUT);
-    digitalWrite(M2, LOW); // When not sending PWM, we want it low
+  Serial.begin(9600);
+  pinMode(HB_INPUT1_PIN, OUTPUT);
+  digitalWrite(HB_INPUT1_PIN, LOW); // When not sending PWM, we want it low
+  pinMode(HB_INPUT2_PIN, OUTPUT);
+  digitalWrite(HB_INPUT2_PIN, LOW); // When not sending PWM, we want it low
+  pinMode(HB_INPUT3_PIN, OUTPUT);
+  digitalWrite(HB_INPUT3_PIN, LOW); // When not sending PWM, we want it low
+  pinMode(HB_INPUT4_PIN, OUTPUT);
+  digitalWrite(HB_INPUT4_PIN, LOW); // When not sending PWM, we want it low
 }
 
 void loop() {
-	analogWrite(M1, 0);
-	analogWrite(E1, 150); //the speed value of motorA is 150
-	analogWrite(M2, 0);
-	analogWrite(E2, 150); //the speed value of motorB is 150
-	delay(5000);
-	//******** ******************************//forward
-	analogWrite(M1, 0);
-	analogWrite(E1, 0); //the speed value of motorA is 0
-analogWrite(M2, 0);
-	analogWrite(E2, 0); //the speed value of motorB is 0
-	delay(1000);//********************************************//stop
-	analogWrite(M1, 150);//the speed value of motorA is 150
-	analogWrite(E1, 0);
-	analogWrite(M2, 150);//the speed value of motorA is 150
-	analogWrite(E2, 0);
-	delay(5000);//*********************************************//back
-	analogWrite(M1, 0);
-	analogWrite(E1, 0); //the speed value of motorA is 0
-	analogWrite(M2, 0);
-	analogWrite(E2, 0); //the speed value of motorB is 0
-	delay(1000);
-	//******* ***************************************//stop
-	analogWrite(M1, 0);
-	analogWrite(E1, 180); //the speed value of motorA is 180
-	analogWrite(M2, 180);//the speed value of motorB is 180
-	analogWrite(E2, 0);
-	delay(3000);
-	//*******************************************//left
-	analogWrite(M1, 0);
-	analogWrite(E1, 0); //the speed value of motorA is 0
-	analogWrite(M2, 0);
-	analogWrite(E2, 0); //the speed value of motorB is 0
-	delay(1000); //*******************************************//stop
-	analogWrite (M1, 200); //the speed value of motorA is 200
-	analogWrite(E1, 0);
-	analogWrite (M2, 0);
-	analogWrite(E2, 200); //the speed value of motorB is 200
-	delay(3000);//*** ***************************************//right
+  analogWrite(HB_INPUT1_PIN, 150);
+  analogWrite(HB_INPUT2_PIN, LOW);
+  analogWrite(HB_INPUT3_PIN, LOW);
+  analogWrite(HB_INPUT4_PIN, 150);
+  delay(5000);
+  //******** ******************************//forward
+  analogWrite(HB_INPUT1_PIN, LOW);
+  analogWrite(HB_INPUT2_PIN, LOW);
+  analogWrite(HB_INPUT3_PIN, LOW);
+  analogWrite(HB_INPUT4_PIN, LOW);
+  delay(1000);//********************************************//stop
+  analogWrite(HB_INPUT1_PIN, LOW);
+  analogWrite(HB_INPUT2_PIN, 150);
+  analogWrite(HB_INPUT3_PIN, 150);
+  analogWrite(HB_INPUT4_PIN, LOW);
+  delay(5000);//*********************************************//back
+  analogWrite(HB_INPUT1_PIN, LOW);
+  analogWrite(HB_INPUT2_PIN, LOW);
+  analogWrite(HB_INPUT3_PIN, LOW);
+  analogWrite(HB_INPUT4_PIN, LOW);
+  delay(1000);
+  //******* ***************************************//stop
+  analogWrite(HB_INPUT1_PIN, LOW);
+  analogWrite(HB_INPUT2_PIN, 150);
+  analogWrite(HB_INPUT3_PIN, LOW);
+  analogWrite(HB_INPUT4_PIN, 150);
+  delay(3000);
+  //*******************************************//left
+  analogWrite(HB_INPUT1_PIN, LOW);
+  analogWrite(HB_INPUT2_PIN, LOW);
+  analogWrite(HB_INPUT3_PIN, LOW);
+  analogWrite(HB_INPUT4_PIN, LOW);
+  delay(1000); //*******************************************//stop
+  analogWrite(HB_INPUT1_PIN, 150);
+  analogWrite(HB_INPUT2_PIN, LOW);
+  analogWrite(HB_INPUT3_PIN, 150);
+  analogWrite(HB_INPUT4_PIN, LOW);
+  delay(3000);//*** ***************************************//right
 }

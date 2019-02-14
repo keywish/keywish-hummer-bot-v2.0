@@ -25,10 +25,10 @@
 
 #include "IR_remote.h"
 
-int E1 = 5; //PWMA
-int M1 = 9; //DIRA****************************************left
-int E2 = 6; //PWMB
-int M2 = 10; //DIRB****************************************right
+#define INPUT1_PIN 6   // PWMB
+#define INPUT2_PIN 10  // DIRB  ---  right
+#define INPUT4_PIN 9   // PWMA
+#define INPUT3_PIN 5   // DIRA  ---  left
 
 int RECV_PIN = 12;//Define the infrared receiver pin to 12
 
@@ -39,7 +39,7 @@ long back = 0xFF4AB5;
 long stop = 0xFF38C7;
 long left = 0xFF10EF;
 long right = 0xFF5AA5;
-
+static byte val = 0;
 IRrecv irrecv(RECV_PIN);
 
 decode_results results;
@@ -52,74 +52,66 @@ void setup() {
 void loop() {
 	if (irrecv.decode( &results)) {
 		if(results.value == advence) {
-			int val = 150;
-			analogWrite(M1, 0);
-			analogWrite(E1, val); //the speed value of motorA is val
-			analogWrite(M2, 0);
-			analogWrite(E2, val); //the speed value of motorA is val
+			analogWrite(INPUT1_PIN, val);//the speed value of motorA is val
+			analogWrite(INPUT2_PIN, 0); 
+			analogWrite(INPUT3_PIN, 0);
+			analogWrite(INPUT4_PIN, val); //the speed value of motorA is val
 			delay(500);
 			irrecv.resume(); // Receive the next value
 		}
-		if(results.value == expedite1) {
-			int val = 200;
-			analogWrite(M1, 0);
-			analogWrite(E1, val);//the speed value of motorA is val
-			analogWrite(M2, 0);
-			analogWrite(E2, val); //the speed value of motorA is val
-			delay(500);
+		if(results.value == expedite1) {  
+      if(val == 255)
+      {
+        val = 255;
+        } else
+        val +=20;
 			irrecv.resume(); // Receive the next value
 		}
 		if(results.value == expedite2) {
-			int val = 255;
-			analogWrite(M1, 0);
-			analogWrite(E1, val); //the speed value of motorA is val
-			analogWrite(M2, 0);
-			analogWrite(E2, val); //the speed value of motorA is val
-			delay(500);
+			if(val == 0)
+      {
+        val = 0;
+        } else
+        val -=20;
 			irrecv.resume(); // Receive the next value
 		}
-
 		if(results.value == stop) {
-			int val = 0;
-			analogWrite(M1, 0);
-			analogWrite(E1, val); //the speed value of motorA is val
-			analogWrite(M2, 0);
-			analogWrite(E2, val);//the speed value of motorA is val
+			analogWrite(INPUT1_PIN, 0);
+			analogWrite(INPUT2_PIN, 0); 
+			analogWrite(INPUT3_PIN, 0);
+			analogWrite(INPUT4_PIN, 0);
 			delay(500);
 			irrecv.resume(); // Receive the next value
 		}
 		if(results.value == left) {
-			int val = 150;
-			analogWrite(M1, 0);
-			analogWrite(E1, val); //the speed value of motorA is val
-			analogWrite(E2, 0);
-			analogWrite(M2, val); //the speed value of motorA is val
+			analogWrite(INPUT1_PIN, 0);
+			analogWrite(INPUT2_PIN, val); //the speed value of motorA is val
+			analogWrite(INPUT3_PIN, 0);
+			analogWrite(INPUT4_PIN, val); //the speed value of motorA is val
 			delay(500);
-			analogWrite(M1, 0);
-			analogWrite(E1, 0); //the speed value of motorA is 0
-			analogWrite(M2, 0);
-			analogWrite(E2, 0); //the speed value of motorB is 0
+			analogWrite(INPUT1_PIN, 0);
+			analogWrite(INPUT2_PIN, 0); //the speed value of motorA is 0
+			analogWrite(INPUT3_PIN, 0);
+			analogWrite(INPUT4_PIN, 0); //the speed value of motorB is 0
 			irrecv.resume(); // Receive the next value
 		}
 		if(results.value == right) {
-			int val = 150;
-			analogWrite(E1, 0);
-			analogWrite(M1, val); //the speed value of motorA is val
-			analogWrite(M2, 0);
-			analogWrite(E2, val); //the speed value of motorA is val
+			analogWrite(INPUT1_PIN, val);//the speed value of motorA is val
+			analogWrite(INPUT2_PIN, 0); 
+			analogWrite(INPUT3_PIN, val);//the speed value of motorA is val
+			analogWrite(INPUT4_PIN, 0); 
 			delay(500);
-			analogWrite(M1, 0);
-			analogWrite(E1, 0); //the speed value of motorA is 0
-			analogWrite(M2, 0);
-			analogWrite(E2, 0); //the speed value of motorB is 0
+			analogWrite(INPUT1_PIN, 0);
+			analogWrite(INPUT2_PIN, 0); //the speed value of motorA is 0
+			analogWrite(INPUT3_PIN, 0);
+			analogWrite(INPUT4_PIN, 0); //the speed value of motorB is 0
 			irrecv.resume(); // Receive the next value
 		}
 		if(results.value == back) {
-			int val = 150;
-			analogWrite(E1, 0);
-			analogWrite(M1, val); //the speed value of motorA is val
-			analogWrite(E2, 0);
-			analogWrite(M2, val); //the speed value of motorA is val
+			analogWrite(INPUT1_PIN, 0);
+			analogWrite(INPUT2_PIN, val); //the speed value of motorA is val
+			analogWrite(INPUT3_PIN, val); //the speed value of motorA is val
+			analogWrite(INPUT4_PIN, 0);
 			delay(500);
 			irrecv.resume(); // Receive the next value
 		}
@@ -128,4 +120,3 @@ void loop() {
 		irrecv.resume(); // Receive the next value
 	}
 }
-

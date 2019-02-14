@@ -26,10 +26,10 @@
 #include "Servo_test.h"
 Servo head;
 
-int E1 = 5; //PWMA
-int M1 = 9; //DIRA****************************************left
-int E2 = 6; //PWMB
-int M2 = 10; //DIRB****************************************right
+#define INPUT1_PIN 6   // PWMB
+#define INPUT2_PIN 10  // DIRB  ---  right
+#define INPUT4_PIN 9   // PWMA
+#define INPUT3_PIN 5   // DIRA  ---  left
 const int TrigPin = 2;
 const int EchoPin = 3;
 const int leftPin = A3;
@@ -42,10 +42,10 @@ float right;
 void setup() {
 	Serial.begin(9600);
 	head.attach(13);
-	pinMode(M1, OUTPUT);
-	pinMode(M2, OUTPUT);
-	pinMode(E1, OUTPUT);
-	pinMode(E2, OUTPUT);
+	pinMode(INPUT1_PIN, OUTPUT);
+	pinMode(INPUT2_PIN, OUTPUT);
+	pinMode(INPUT3_PIN, OUTPUT);
+	pinMode(INPUT4_PIN, OUTPUT);
 	pinMode(TrigPin, OUTPUT);
 	pinMode(EchoPin, INPUT);
 	pinMode(leftPin, INPUT);
@@ -67,10 +67,10 @@ void loop() {
 
 	if ((da >= 50) && (da <= 2000) && (left >= 38) && (right >= 38)) {
 		int val = 150;
-		analogWrite(M1, 0);
-		analogWrite(E1, val); //the speed value of motorA is 255
-		analogWrite(M2, 0);
-		analogWrite(E2, val); //the speed value of motorB is 255
+		analogWrite(INPUT1_PIN, val);//the speed value of motorA is 255
+		analogWrite(INPUT2_PIN, 0); 
+		analogWrite(INPUT3_PIN, 0);
+		analogWrite(INPUT4_PIN, val); //the speed value of motorB is 255
 		Serial.print("Distance = ");
 		Serial.print(da);
 		Serial.print("    ");
@@ -79,10 +79,10 @@ void loop() {
 	}
 	if ((da < 40) && (da > 30) && ( left >= 38) && (right >= 38)) {
 		int val = 130;
-		analogWrite(M1, 0);
-		analogWrite(E1, val); //the speed value of motorA is 255
-		analogWrite(M2, 0);
-		analogWrite(E2, val); //the speed value of motorB is 255
+		analogWrite(INPUT1_PIN, 0);
+		analogWrite(INPUT2_PIN, val); //the speed value of motorA is 255
+		analogWrite(INPUT3_PIN, val);//the speed value of motorB is 255
+		analogWrite(INPUT4_PIN, 0); 
 		Serial.print("Distance = ");
 		Serial.print(da);
 		Serial.print("    ");
