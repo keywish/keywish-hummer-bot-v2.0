@@ -1,6 +1,6 @@
 #include "IR_remote.h"
 
-IRremote ir(8);
+IRremote ir(12);
 
 unsigned char keycode;
 char str[128];
