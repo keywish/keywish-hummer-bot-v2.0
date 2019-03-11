@@ -16,10 +16,10 @@ void setup() {
 }
 
 void loop() {
-  analogWrite(HB_INPUT1_PIN, 150);
+  analogWrite(HB_INPUT1_PIN, 200);
   analogWrite(HB_INPUT2_PIN, LOW);
   analogWrite(HB_INPUT3_PIN, LOW);
-  analogWrite(HB_INPUT4_PIN, 150);
+  analogWrite(HB_INPUT4_PIN, 200);
   delay(5000);
   //******** ******************************//forward
   analogWrite(HB_INPUT1_PIN, LOW);
@@ -28,8 +28,8 @@ void loop() {
   analogWrite(HB_INPUT4_PIN, LOW);
   delay(1000);//********************************************//stop
   analogWrite(HB_INPUT1_PIN, LOW);
-  analogWrite(HB_INPUT2_PIN, 150);
-  analogWrite(HB_INPUT3_PIN, 150);
+  analogWrite(HB_INPUT2_PIN, 200);
+  analogWrite(HB_INPUT3_PIN, 200);
   analogWrite(HB_INPUT4_PIN, LOW);
   delay(5000);//*********************************************//back
   analogWrite(HB_INPUT1_PIN, LOW);
@@ -39,9 +39,9 @@ void loop() {
   delay(1000);
   //******* ***************************************//stop
   analogWrite(HB_INPUT1_PIN, LOW);
-  analogWrite(HB_INPUT2_PIN, 150);
+  analogWrite(HB_INPUT2_PIN, 200);
   analogWrite(HB_INPUT3_PIN, LOW);
-  analogWrite(HB_INPUT4_PIN, 150);
+  analogWrite(HB_INPUT4_PIN, 200);
   delay(3000);
   //*******************************************//left
   analogWrite(HB_INPUT1_PIN, LOW);
@@ -49,9 +49,9 @@ void loop() {
   analogWrite(HB_INPUT3_PIN, LOW);
   analogWrite(HB_INPUT4_PIN, LOW);
   delay(1000); //*******************************************//stop
-  analogWrite(HB_INPUT1_PIN, 150);
+  analogWrite(HB_INPUT1_PIN, 200);
   analogWrite(HB_INPUT2_PIN, LOW);
-  analogWrite(HB_INPUT3_PIN, 150);
+  analogWrite(HB_INPUT3_PIN, 200);
   analogWrite(HB_INPUT4_PIN, LOW);
   delay(3000);//*** ***************************************//right
 }
