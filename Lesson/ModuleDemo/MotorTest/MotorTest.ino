@@ -1,7 +1,7 @@
 #define HB_INPUT1_PIN 6
 #define HB_INPUT2_PIN 10
-#define HB_INPUT3_PIN 5
-#define HB_INPUT4_PIN 9
+#define HB_INPUT3_PIN 9
+#define HB_INPUT4_PIN 5
 
 void setup() {
   Serial.begin(9600);

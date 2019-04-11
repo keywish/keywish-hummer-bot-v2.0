@@ -5,8 +5,8 @@
 
 #define INPUT2_PIN 10 // PWMB
 #define INPUT1_PIN 6  // DIRB  ---  right
-#define INPUT4_PIN 5  // PWMA
-#define INPUT3_PIN 9  // DIRA  ---  left
+#define INPUT3_PIN 9  // PWMA
+#define INPUT4_PIN 5  // DIRA  ---  left
 #define PS2X_CLK 11
 #define PS2X_CMD 7
 #define PS2X_CS  8
@@ -22,7 +22,7 @@ void setup()
     hbot.init();
     hbot.SetControlMode(E_PS2_REMOTE_CONTROL);
     hbot.SetPs2xPin(HB_PS2X_CLK, HB_PS2X_CMD, HB_PS2X_ATT, HB_PS2X_DAT);
-    hbot.SetSpeed(0);
+    hbot.SetSpeed(60);
     Ps2xType = hbot.mPs2x->readType();
 }
 

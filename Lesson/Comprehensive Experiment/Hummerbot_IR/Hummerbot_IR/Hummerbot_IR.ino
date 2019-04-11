@@ -18,7 +18,7 @@ void setup()
     hbot.init();
     hbot.SetControlMode(E_INFRARED_REMOTE_CONTROL);
     hbot.SetIrPin(HB_IR_PIN);
-    hbot.SetSpeed(0);
+    hbot.SetSpeed(60);
 }
 
 void HandleInfaredRemote(byte irKeyCode)

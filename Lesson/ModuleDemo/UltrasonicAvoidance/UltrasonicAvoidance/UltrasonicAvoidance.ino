@@ -90,38 +90,38 @@ void loop() {
 		//  delay(500);
 	}
 	if ((left <= 38) && (right >= 38) && (da >= 30 && da <= 1000)) {
-		digitalWrite(INPUT1_PIN, HIGH);
-		analogWrite(INPUT2_PIN, 0); //the speed value of motorA is val
-		analogWrite(INPUT3_PIN, 0);
-		analogWrite(INPUT4_PIN, 250); //the speed value of motorA is val
+		digitalWrite(M1, HIGH);
+		analogWrite(E1, 0); //the speed value of motorA is val
+		analogWrite(M2, 0);
+		analogWrite(E2, 250); //the speed value of motorA is val
 		Serial.println("Turning right");
 		delay(200);
-		analogWrite(INPUT1_PIN, 0);
-		analogWrite(INPUT2_PIN, 0);
-		analogWrite(INPUT3_PIN, 0);
-		analogWrite(INPUT4_PIN, 0);
+		analogWrite(M1, 0);
+		analogWrite(E1, 0);
+		analogWrite(M2, 0);
+		analogWrite(E2, 0);
 		//delay(1000); //********************************************//Turning right
 	}
 	if ((left >= 38) && (right <= 38) && (da >= 30 && da <= 1000)) {
-		analogWrite(INPUT1_PIN, 0);
-		analogWrite(INPUT2_PIN, 250); //the speed value of motorA is 180
-		digitalWrite(INPUT3_PIN, HIGH);
-		analogWrite(INPUT4_PIN, 0); //the speed value of motorB is 180
+		analogWrite(M1, 0);
+		analogWrite(E1, 250); //the speed value of motorA is 180
+		digitalWrite(M2, HIGH);
+		analogWrite(E2, 0); //the speed value of motorB is 180
 		Serial.println("Turning left");
 		delay(200);
-		analogWrite(INPUT1_PIN, 0);
-		analogWrite(INPUT2_PIN, 0);
-		analogWrite(INPUT3_PIN, 0);
-		analogWrite(INPUT4_PIN, 0);
+		analogWrite(M1, 0);
+		analogWrite(E1, 0);
+		analogWrite(M2, 0);
+		analogWrite(E2, 0);
 		// delay(1000); //********************************************//Turning left
 	}
 
 	else if (da <= 25) {
 		int val = 0;
-		analogWrite(INPUT1_PIN, 0);
-		analogWrite(INPUT2_PIN, val); //the speed value of motorA is 255
-		analogWrite(INPUT3_PIN, 0);
-		analogWrite(INPUT4_PIN, val); //the speed value of motorB is 255
+		analogWrite(M1, 0);
+		analogWrite(E1, val); //the speed value of motorA is 255
+		analogWrite(M2, 0);
+		analogWrite(E2, val); //the speed value of motorB is 255
 		Serial.print("Distance = ");
 		Serial.print(da);
 		Serial.print("    ");
@@ -154,44 +154,44 @@ void loop() {
 		//Head rudder turn right to measure the right distance and output
 		head.write(80);     //Head steering gear back
 		if (dl >= 20 && dl <= 1000 && dl > dr) {
-			analogWrite(INPUT1_PIN, 0); 
-			analogWrite(INPUT2_PIN, 180); //the speed value of motorA is 255
-			digitalWrite(INPUT3_PIN, 1);
-			analogWrite(INPUT4_PIN, 0); //the speed value of motorB is 255
+			analogWrite(M1, 0); 
+			analogWrite(E1, 180); //the speed value of motorA is 255
+			digitalWrite(M2, 1);
+			analogWrite(E2, 0); //the speed value of motorB is 255
 			Serial.println("Turning left1");
 			delay(200);      //To determine the left and right distance left if the larger
 		}
 		else if (dl >= 1000) {
-			digitalWrite(INPUT1_PIN, 1);
-			analogWrite(INPUT2_PIN, 0); //the speed value of motorA is 255
-			analogWrite(INPUT3_PIN, 0);
-			analogWrite(INPUT4_PIN, 180); //the speed value of motorB is 255
+			digitalWrite(M1, 1);
+			analogWrite(E1, 0); //the speed value of motorA is 255
+			analogWrite(M2, 0);
+			analogWrite(E2, 180); //the speed value of motorB is 255
 			Serial.println("Turning right1");
 			delay(200);
 			//Special circumstances if the left to return distance greater than 1000 shows the probe is blocked at this time turn right
 		}
 		else if (dr >= 20 && dr <= 1000 && dr > dl) {
-			digitalWrite(INPUT1_PIN, 1);
-			analogWrite(INPUT2_PIN, 0); //the speed value of motorA is 255
-			analogWrite(INPUT3_PIN, 0);
-			analogWrite(INPUT4_PIN, 180); //the speed value of motorB is 255
+			digitalWrite(M1, 1);
+			analogWrite(E1, 0); //the speed value of motorA is 255
+			analogWrite(M2, 0);
+			analogWrite(E2, 180); //the speed value of motorB is 255
 			Serial.println("Turning right2");
 			delay(200);      //Judging the right and left distances
 		}
 		else if (dr >= 1000) {
-			analogWrite(INPUT1_PIN, 0);
-			analogWrite(INPUT2_PIN, 180); //the speed value of motorA is 255
-			digitalWrite(INPUT3_PIN, 1);
-			analogWrite(INPUT4_PIN, 0); //the speed value of motorB is 255
+			analogWrite(M1, 0);
+			analogWrite(E1, 180); //the speed value of motorA is 255
+			digitalWrite(M2, 1);
+			analogWrite(E2, 0); //the speed value of motorB is 255
 			Serial.println("Turning left2");
 			delay(200);
 			//Special circumstances if the right to return distance greater than 1000 shows the probe is blocked at this time turn left
 		}
 		else if (dr <= 20 && dl <= 20) {
-			digitalWrite(INPUT1_PIN, 1);
-			analogWrite(INPUT2_PIN, 0); //the speed value of motorA is 255
-			analogWrite(INPUT3_PIN, 0);
-			analogWrite(INPUT4_PIN, 255); //the speed value of motorB is 255
+			digitalWrite(M1, 1);
+			analogWrite(E1, 0); //the speed value of motorA is 255
+			analogWrite(M2, 0);
+			analogWrite(E2, 255); //the speed value of motorB is 255
 			Serial.println("Turning around");
 			delay(700);
 			//If the left and right sides are less than 20cm, then turn around

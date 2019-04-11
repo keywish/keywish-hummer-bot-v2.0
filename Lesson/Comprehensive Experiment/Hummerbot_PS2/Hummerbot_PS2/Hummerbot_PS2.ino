@@ -22,7 +22,7 @@ void setup()
     hbot.init();
     hbot.SetControlMode(E_PS2_REMOTE_CONTROL);
     hbot.SetPs2xPin(HB_PS2X_CLK, HB_PS2X_CMD, HB_PS2X_ATT, HB_PS2X_DAT);
-    hbot.SetSpeed(0);
+    hbot.SetSpeed(60);
     Ps2xType = hbot.mPs2x->readType();
 }
 

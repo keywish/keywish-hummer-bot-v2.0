@@ -39,7 +39,7 @@ long back = 0xFF4AB5;
 long stop = 0xFF38C7;
 long left = 0xFF10EF;
 long right = 0xFF5AA5;
-static byte val = 0;
+static byte val = 150;
 IRrecv irrecv(RECV_PIN);
 
 decode_results results;

@@ -5,8 +5,8 @@
 
 #define INPUT1_PIN 6   // PWMB
 #define INPUT2_PIN 10  // DIRB  ---  right
-#define INPUT4_PIN 9   // PWMA
-#define INPUT3_PIN 5   // DIRA  ---  left
+#define INPUT3_PIN 9   // PWMA
+#define INPUT4_PIN 5   // DIRA  ---  left
 #define IR_PIN 12
 #define SERVO_PIN 13
 #define ECHO_PIN 3
