@@ -159,6 +159,7 @@
 		</block>
 <!--第二十个图形块：读取循迹状态（下拉）-->
 		<block type="hb_readTrackingValue"></block>
+		<block type="hb_readTrackingValues"></block>
 <!--第二十一个图形块：定义一个保存上一次循迹状态的变量-->
 		<block type="hb_setByteOld"></block>
 <!--第二十二个图形块：当前循迹状态（下拉）-->

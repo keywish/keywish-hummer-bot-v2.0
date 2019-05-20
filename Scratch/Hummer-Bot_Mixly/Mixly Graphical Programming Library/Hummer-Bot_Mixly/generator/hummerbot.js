@@ -26,7 +26,7 @@ Blockly.Arduino.hb_move = function() {
  var dropdown_Direction = this.getFieldValue('Direction');
  var value_Speed = Blockly.Arduino.valueToCode(this,'Speed',Blockly.Arduino.ORDER_ATOMIC);
  var code = 'hbot.SetSpeed('+value_Speed+');\n'
- 			+'hbot.Drive('+dropdown_Direction+');\n';
+ 			+'hbot.Move('+dropdown_Direction+');\n';
 return code;
 };
 //将第二个图形块转化为C语言 小车操控模式下拉（下拉没有value）
@@ -167,12 +167,17 @@ Blockly.Arduino.hb_IrTrackingPin = function(){
 //将第二十个图形块转化为C语言 读取循迹状态（下拉）
 Blockly.Arduino.hb_readTrackingValue = function(){
  var dropdown_TrackingValue = this.getFieldValue('TrackingValue');
- var code = 'hbot.mInfraredTracing->getValue()=='+dropdown_TrackingValue+'';
+var code = 'hbot.mInfraredTracing->getValue()';
+ return [code, Blockly.Arduino.ORDER_ATOMIC]; 
+};
+Blockly.Arduino.hb_readTrackingValues = function(){
+ var dropdown_TrackingValue = this.getFieldValue('TrackingValue');
+ var code = dropdown_TrackingValue;
  return [code, Blockly.Arduino.ORDER_ATOMIC]; 
 };
 //将第二十一个图形块转化为C语言 定义一个保存上一次循迹状态的变量
 Blockly.Arduino.hb_setByteOld = function(){
- var code = 'static byte old;';
+ var code = 'static byte old;\n';
  return code;
 };
 //将第二十二个图形块转化为C语言 当前循迹状态（下拉）
@@ -183,7 +188,7 @@ Blockly.Arduino.hb_recentTrackingValue = function(){
 };
 //将第二十三个图形块转化为C语言 清除上一次循迹状态
 Blockly.Arduino.hb_cleanLastTrackingValue = function(){
- var code = 'old=0;';
+ var code = 'old=0;\n'+'break;\n';
  return code;
 };
 //将第二十四个图形块转化为C语言 当前循迹状态不是全白
@@ -194,7 +199,7 @@ return [code, Blockly.Arduino.ORDER_ATOMIC];
 //将第二十五个图形块转化为C语言 重置上一次循迹状态
 Blockly.Arduino.hb_resetLastTrackingValue = function(){
  var dropdown_TrackingValue = this.getFieldValue('TrackingValue');
- var code = 'old='+dropdown_TrackingValue+';';
+ var code = 'old='+dropdown_TrackingValue+';\n';
  return code;
 };
 //将第二十六个图形块转化为C语言 接收蓝牙数据

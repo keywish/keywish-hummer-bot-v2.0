@@ -118,6 +118,7 @@ void Hummerbot::Drive(int degree=90)
 void Hummerbot::Drive(int degree)
 #endif
 {
+	Degree=degree;
 	DEBUG_LOG(DEBUG_LEVEL_INFO, "degree = %d speed = %d\n", degree, Speed);
 	int value = (Speed / 10) * 25.5;	 //app contol hbot_speed is 0 ~ 100 ,pwm is 0~255
 	float f;
@@ -154,6 +155,25 @@ void Hummerbot::Drive(int degree)
 		SetStatus(E_RIGHT);
 	}
 	else {
+		KeepStop();
+	}
+}
+
+#if ARDUINO > 10609
+void Hummerbot::Move(int direction=1)
+#else
+void Hummerbot::Move(int direction)
+#endif
+{
+	if(direction == 1){
+		GoForward();
+	}else if(direction == 2){
+		GoBack();
+	}else if(direction == 3){
+		TurnLeft();
+	}else if(direction == 4){
+		TurnRight();
+	}else{
 		KeepStop();
 	}
 }

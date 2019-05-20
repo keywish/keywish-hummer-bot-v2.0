@@ -8,7 +8,7 @@ goog.require('Blockly.Blocks');
 Blockly.Blocks.hummerbot.HUE = 300;
 
 
-var HUMMERBOT_DIRECTION=[[Blockly.HUMMERBOT_DIRECTION_FORWARD, "90"],[Blockly.HUMMERBOT_DIRECTION_BACK, "270"],[Blockly.HUMMERBOT_DIRECTION_STOP,"90"],[Blockly.HUMMERBOT_DIRECTION_TURNLEFT, "180"],[Blockly.HUMMERBOT_DIRECTION_TURNRIGHT, "0"]];
+var HUMMERBOT_DIRECTION=[[Blockly.HUMMERBOT_DIRECTION_FORWARD, "1"],[Blockly.HUMMERBOT_DIRECTION_BACK, "2"],[Blockly.HUMMERBOT_DIRECTION_STOP,"5"],[Blockly.HUMMERBOT_DIRECTION_TURNLEFT, "3"],[Blockly.HUMMERBOT_DIRECTION_TURNRIGHT, "4"]];
 var HUMMERBOT_CONTROLMODE=[[Blockly.HUMMERBOT_CONTROLMODE_BLUETOOTH,"0"],[Blockly.HUMMERBOT_CONTROLMODE_REMOTE,"1"],[Blockly.HUMMERBOT_CONTROLMODE_IRTRACKING,"2"],[Blockly.HUMMERBOT_CONTROLMODE_IRAVOIDANCE,"3"],[Blockly.HUMMERBOT_CONTROLMODE_ULTRASONICAVOIDANCE,"4"],[Blockly.HUMMERBOT_CONTROLMODE_PS2,"5"],[Blockly.HUMMERBOT_CONTROLMODE_NRF24L01,"6"],[Blockly.HUMMERBOT_CONTROLMODE_ULTRASONICIRAVOIDANCE,"7"]];
 var HUMMERBOT_IRKEY=[["1","0"],["2","1"],["3","2"],["4","3"],["5","4"],["6","5"],["7","6"],["8","7"],["9","8"],["0","9"],["*","10"],["#","11"],[Blockly.HUMMERBOT_IRKEY_UP,"12"],[Blockly.HUMMERBOT_IRKEY_DOWN,"13"],["OK","14"],[Blockly.HUMMERBOT_IRKEY_LEFT,"15"],[Blockly.HUMMERBOT_IRKEY_RIGHT,"16"]];
 var HUMMERBOT_ULTRASONICDIRECTION=[[Blockly.HUMMERBOT_ULTRASONICDIRECTION_FRONT,"0"],[Blockly.HUMMERBOT_ULTRASONICDIRECTION_LEFT,"1"],[Blockly.HUMMERBOT_ULTRASONICDIRECTION_RIGHT,"2"]];
@@ -344,6 +344,17 @@ Blockly.Blocks.hb_IrTrackingPin = {
 };
 //第二十个图形块的样式 读取循迹状态（下拉）
 Blockly.Blocks.hb_readTrackingValue = {
+  init:function(){
+	this.setColour(Blockly.Blocks.hummerbot.HUE);  
+	this.appendDummyInput("")
+	    .appendField(Blockly.HUMMERBOT_READTRACKINGVALUE)
+	    .appendField(new Blockly.FieldImage("../../media/hummerbot/hb_irtracking.png", 39, 32))
+       //.appendField(new Blockly.FieldDropdown(HUMMERBOT_TRACKINGVALUE), "TrackingValue")
+	this.setOutput(true, Boolean);
+	this.setTooltip('');
+  }
+};
+Blockly.Blocks.hb_readTrackingValues = {
   init:function(){
 	this.setColour(Blockly.Blocks.hummerbot.HUE);  
 	this.appendDummyInput("")

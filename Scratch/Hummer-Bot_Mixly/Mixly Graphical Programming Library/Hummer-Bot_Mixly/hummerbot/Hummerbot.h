@@ -59,6 +59,7 @@ public :
     void KeepStop(void);
     void Drive(void);
     void Drive(int degree);
+	void Move(int direction);
     void SetIrPin(uint8_t pin = HB_IR_PIN);
 	void SetMotorPin(uint8_t input2, uint8_t input1, uint8_t input3, uint8_t input4);
     void SetUltrasonicPin(uint8_t Trig_Pin = HB_TRIGPIN, uint8_t Echo_Pin = HB_ECHOPIN);
