@@ -23,10 +23,7 @@ Hummer-Bot is a multi-function car, it is based on the Arduino UNO and the L298N
 # Required Best Buy Links
 [Buy on Amazon]( https://www.amazon.com/dp/B07CFX53W4) </br>
 [Buy on AliExpress]( https://www.aliexpress.com/store/product/Smart-Cars-for-Arduino-UNO-R3-Super-Starter-Kit-APP-RC-Remote-Control-Ultrasonic-Bluetooth-Module/3269016_32920074010.html)
-# Video Links
-[Component introduction](https://www.youtube.com/watch?v=xoyr-iGFl1g) </br>
-[Function](https://www.youtube.com/watch?v=1qj2kNGm4S0) </br>
-[Assembly](https://www.youtube.com/watch?v=fuo3Ugoi9Cs) </br>
+
 # Download Method
 ![](https://github.com/keywish/keywish-hummer-bot-v2.0/blob/master/Download_instructions.jpg)
 
