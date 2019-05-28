@@ -68,6 +68,8 @@
 		<block type= "hb_speedup"></block>
 <!--第七个图形块：减速-->
 		<block type= "hb_speeddown"></block>
+<!--获取当前速度-->
+		<block type= "hb_getcurrentspeed"></block>
 <!--第八个图形块：红外接收引脚（输入，有value）-->
 		<block type= "hb_irReceive">
 			<value name="IrReceivePin">
@@ -76,6 +78,8 @@
 				</shadow>
 			</value>
 		</block>
+<!--红外遥控按键被按下（下拉，返回boolean）-->
+		<block type="hb_irKeyPressed"></block>	
 <!--第九个图形块：红外遥控按键（下拉，返回boolean）-->
 		<block type="hb_irKeyPress"></block>
 <!--第十个图形块：超声波模块两个引脚（输入 有value）-->

@@ -70,15 +70,18 @@ Blockly.Arduino.hb_turn = function(){
 };
 //将第六个图形块转化为C语言 加速
 Blockly.Arduino.hb_speedup = function(){
- var code = 'hbot.SpeedUp(5);\n'
- 			+'hbot.Drive();\n';
+ var code = 'hbot.SpeedUp(5);\n';
  return code;
 };
 //将第七个图形块转化为C语言 减速
 Blockly.Arduino.hb_speeddown = function(){
- var code = 'hbot.SpeedDown(5);\n'
- 			+'hbot.Drive();\n';
+ var code = 'hbot.SpeedDown(5);\n';
  return code;
+};
+//获取当前速度
+Blockly.Arduino.hb_getcurrentspeed = function(){
+ var code = 'hbot.GetSpeed()';
+ return [code, Blockly.Arduino.ORDER_ATOMIC]; //当code为表达式时用此返回方式
 };
 //将第八个图形块转化为C语言 红外接收引脚（输入，有value）
 Blockly.Arduino.hb_irReceive = function(){
@@ -86,6 +89,12 @@ Blockly.Arduino.hb_irReceive = function(){
  Blockly.Arduino.setups_['setup_hb_irReceive'] ='\t'+'hbot.SetIrPin('+value_IrReceivePin+');\n'
  var code = '';
  return code;
+};
+//红外遥控按键被按下（下拉，返回boolean）
+Blockly.Arduino.hb_irKeyPressed = function(){
+ Blockly.Arduino.definitions_['define_irremote'] = 'byte irKeyCode;\n'; 
+ var code = 'irKeyCode = hbot.mIrRecv->getCode()';
+ return [code, Blockly.Arduino.ORDER_ATOMIC]; //当code为表达式时用此返回方式
 };
 //将第九个图形块转化为C语言 红外遥控按键（下拉，返回boolean）
 Blockly.Arduino.hb_irKeyPress = function(){

@@ -152,6 +152,17 @@ Blockly.Blocks.hb_speeddown = {
     this.setTooltip('');
  }
 };
+//获取当前速度
+Blockly.Blocks.hb_getcurrentspeed = {
+  init: function() {
+    this.setColour(Blockly.Blocks.hummerbot.HUE);
+    this.appendDummyInput("")
+        .appendField(Blockly.HUMMERBOT_GETCURRENTSPEED)
+		.appendField(new Blockly.FieldImage("../../media/hummerbot/hb_hummerbot.jpg", 45, 38))		
+    this.setOutput(true, Number);
+    this.setTooltip('');
+  }
+};
 //第八个图形块的样式 红外接收引脚（输入，有value）
 Blockly.Blocks.hb_irReceive = {
   init: function() {
@@ -164,6 +175,18 @@ Blockly.Blocks.hb_irReceive = {
         .setAlign(Blockly.ALIGN_RIGHT);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
+this.setTooltip('');
+  }
+};
+//红外遥控按键被按下（下拉，返回boolean）
+Blockly.Blocks.hb_irKeyPressed = {
+  init: function() {
+    this.setColour(Blockly.Blocks.hummerbot.HUE);
+    this.appendDummyInput("")
+        .appendField(Blockly.HUMMERBOT_IRKEYPRESSED)
+		.appendField(new Blockly.FieldImage("../../media/hummerbot/hb_irremote.jpg", 39, 32))
+		
+    this.setOutput(true, Boolean);
     this.setTooltip('');
   }
 };
