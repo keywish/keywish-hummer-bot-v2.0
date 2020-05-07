@@ -3,7 +3,6 @@ Sales email: ken@keywish-robot.com</br>
 The latest information download address:https://github.com/keywish/keywish-hummer-bot-v2.0    </br>
 
 
-The latest information download address: https://github.com/keywish/keywish-hummer-bot-v2.0
 ![](https://github.com/keywish/keywish-hummer-bot-v2.0)
 # Hummer-bot 
 ![](https://github.com/keywish/keywish-hummer-bot-v2.0/blob/master/hummer_bot2.0.jpg)
